@@ -6,7 +6,8 @@ A project that will use api's !
 
 ### Branches
 
-> Toujours se placer sur la branche develop avant de créer une nouvelle branche
+**> Toujours se placer sur la branche develop avant de créer une nouvelle branche**
+
 
 Afin de bien structurer le projet les branches seront structurées comme suit.
 
