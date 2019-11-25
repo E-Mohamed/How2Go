@@ -15,3 +15,8 @@ Afin de bien structurer le projet les branches seront structurées comme suit.
 * **Develop:** la branche sur laquelle nous allons merger nos modifications via nos differentes branches
 * **feature/[Nom-de-la-branche]:** le nom de la branche sur laquelle vous allez travailler 
 *Par exemple si vous êtes en charge de l'affichage de la liste des utilisateurs la branche se nommera "feature/user-list" ou "feature/view-users-list"*
+
+> Penser à sécuriser vos branches, une branche sécuriser c'est un arbre de sauvé 
+>- Voltaire
+
+[Tuto sécuriser sa branche](tuto_branche.md)
