@@ -7,5 +7,5 @@ Une fois sur la page <i>repository settings</i> aller dans la section <b>protect
 
 ![tuto1](/images/1.png)
 
-Cliquez sur <b>Expand</b> pour avoir accès au modification de la branche
+Cliquez sur <b>Expand</b> pour avoir accès au modification des branches
 
