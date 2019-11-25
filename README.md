@@ -19,4 +19,4 @@ Afin de bien structurer le projet les branches seront structurées comme suit.
 > Penser à sécuriser vos branches, une branche sécuriser c'est un arbre de sauvé 
 >- Voltaire
 
-[Tuto sécuriser sa branche](tuto_branche.md)
+[Tuto sécuriser sa branche](Tuto_branche.md)
