@@ -21,7 +21,7 @@ Une US correspond à une branche, Créer une nouvelle branche depuis develop a c
 
 ### Branches
 
-**> Toujours se placer sur la branche develop avant de créer une nouvelle branche**
+> **Toujours se placer sur la branche develop avant de créer une nouvelle branche**
 
 
 Afin de bien structurer le projet les branches seront structurées comme suit.
