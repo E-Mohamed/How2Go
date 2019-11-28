@@ -165,6 +165,11 @@ Nous parcourons la données ```records``` avec un foreach ```records.foreach``` 
 
 Et enfin avec la methode ```addTo()``` nous l'ajoutons à notre map ```myMap``` que nous avons définis précedemment.
 
+Vous devriez appercevoir vos 10 points situer vers Lille. 
+
+#### voili voilou
+
+
 
 
 
