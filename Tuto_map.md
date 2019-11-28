@@ -65,6 +65,61 @@ Il faudrat pour ca
 * Récuperer les données dans notre composant
 * Les afficher sur la carte
 
+Tout d'abord nous allons créer le service qui lui importera le module HTTP et fera l'appelle necessaire à notre API
+
+Lancer la commande suivante
+``` bash
+ng generate service position
+```
+Cela va créer le service ```position.service.ts```
+
+Importer ensuite le module HTTPClient ainsi que notre ami Observable
+
+``` typescript
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+```
+
+Ensuite il nous faut injecter ( comme nous l'avons vu en cours ) dans le constructeur le module HTTP
+
+``` typescript
+constructor(private http: HttpClient) {}
+```
+
+Une fois injecter il nous reste plus qu'a créer notre fonction qui va nous permettre d'appeler l'API
+
+```typescript
+getPos(): Observable<any> {
+    const url = 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=bornes-podotactiles';
+    return this.http
+      .get<any>(url)
+      .pipe();
+  }
+```
+
+Ici je fais un appelle GET tout simple je ne gere même pas les erreurs (flemme dsl). Il retourne un Observable de type any car je n'avais pas plus d'information sur l'api que j'utlise, 
+
+NB : en typescript le type any permet de définir un type à une données dont on ne connait pas forcément le type et nous disons ainsi au transpiller que cet objet n'a aucun type nous pouvons donc effectuer tout type d'operation dessus
+
+> <h5>Petite notion de clean code</h5>
+> Ici j'ai définit l'url de l'api dans ma fonction, mais il serait préferable de la définir en dehors de la fonction si à l'avenir nous avons plusieur fonctions faisant appelle à cette url ( surement avec different parametres ), mais aussi dans le pipe() dans le quel nous pouvons definir la methode catchError()
+
+Une fois notre fonction créer retournons a nor=tre composant *app.component.ts* et importons comme précedemment notre service que nous injecterons dans le contructeur
+
+``` typescript
+import { PositionService } from './position.service';
+```
+
+``` typescript
+constructor(private positionService: PositionService) {}
+````
+
+Maintenant place au code en utilisant les methode de Leaflet.
+
+Nous avons précedemment importé ```map``` qui est la libraire de leaflet nous allons maintenant utilisé certaine de ces méthode pour :
+
+* créer une icone de marker avec une popup
+* définir l'emplacement des marker récupérer depuis l'API
 
 
 
