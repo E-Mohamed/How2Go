@@ -27,11 +27,13 @@ Une fois le contenaire de notre map definis VOUS DEVEZ DEFINIR LE CSS de votre c
 ```
 
 Une fois ceci prêt, dans le script de votre composant app *app.component.ts*
-Dans un premier temps importer <b>Leaflet</b> 
+Dans un premier temps importer <b>Leaflet</b>
+
 ``` typescript
 import * as map from 'leaflet';
 ```
-puis à l'interieur de votre *ngOnInit* copiez ce code
+
+puis à l'interieur de votre ```ngOnInit``` copiez ce code
 
 ``` typescript
 ngOnInit() {
@@ -46,6 +48,23 @@ ngOnInit() {
       .addTo(myMap);
 }
 ```
-Nous définissons dans un premier 
+Nous définissons dans un premier temps notre carte ```myMap``` dont nous settons la position initial en dur ( sans géolocalisation pour le moment features à venir) avec **setView** qui prend la latitude et la longitude en parametre puis le scale de notre carte ( le zoom sur la carte plus le chiffre est élevée plus le zoom est proche il me smeble la valeur max avec leaflet est 19 ou 20 je suis pas sûre de ca c'est a vérifié )
+
+Ensuite nous ajoutons l'image de a carte à notre map  via tileLayer
+
+Voilà à ce stade vous devriez avoir une map lors du lancement de votre appli (via la commande ng serve bien evidement)
+
+## Ajouter des marker
+
+Afin de rentre notre carte utile nous souhaitons ajouter des points  de repères situant les trottinette et scooter en libre service sur notre map. Pour cela nous récupererons via les API des forunisseurs respectives les coordonées necessaire, mais pour ce tuto nous appelerons une API externe libre d'accès renvoyant 10 positions corespondant a des "podotactile" ( ne me demandez pas je sais pas c'est quoi) sur la ville de Lille ( donc pour verifier vos résultats scrollez la carte jusqu'a Lille elle est actuellement centré chez moi )
+
+Il faudrat pour ca
+
+* Importer le HTTPmodule
+* Créer le service qui va appeler l'api
+* Récuperer les données dans notre composant
+* Les afficher sur la carte
+
+
 
 
