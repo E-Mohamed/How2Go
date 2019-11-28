@@ -121,5 +121,52 @@ Nous avons précedemment importé ```map``` qui est la libraire de leaflet nous 
 * créer une icone de marker avec une popup
 * définir l'emplacement des marker récupérer depuis l'API
 
+``` typescript
+myIcon = map.icon({
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png',
+    iconSize: [26, 41],
+    iconAnchor: [13, 41],
+    popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
+  });
+```
+Ici nous définissons notre icone avec la methode ```icon()``` de la librairie leaflet elle prend plusieurs paramètres :
+* **iconUrl** : le chemin vers l'image de notre marker qui s'affichera sur lacarte
+* **iconSize** : la taille en pixel de notre icon en [width, height] 
+* **iconAnchor** : Le point "d'ancrage" de notre marker à savoir quel point de notre icone va "pointer" sur la map les coordonées sont en [x,y] et le point d'origine [0,0] se situe en en haut a gauche de l'iamge donc pour que notre image de 26x41 px aient un point d'ancrage en bas au milieu on lui donne les coordonnées suivant [13, 41] donc 13 pixel en partant de la gauche puis 41 pixel en partant du haut vers le bas 
+* **popuAnchor** : Le point d'ancrage de la popup lorsque l'on clique dessus ici le point d'ancrage, le repère se fait par rapport au point d'iconAnchor definit précedemment 
+
+> Voici le lien de la doc leaflet à ce sujet : [lien](https://leafletjs.com/examples/custom-icons/)
+
+> Mais perso c'est ici que j'ai compris comment ca fonctionnait : [lien](https://stackoverflow.com/questions/46101450/explanation-of-leaflet-custom-icon-latlng-vs-xy-coordinates)
+
+Une fois l'icon définit, appellons notre méthodes pour récupérer les emplacement a mettre sur la carte.
+
+dans notre ```ngOnInit``` a la suite du code précedent ajoutons ce code 
+
+``` typescript
+this.positionService.getPos().subscribe((data: any) => {
+      data.records.forEach(point => {
+        map.marker(
+            [
+              point.geometry.coordinates[1],
+              point.geometry.coordinates[0]
+            ],
+            { icon: this.myIcon }
+          ).bindPopup('bla bla de la trottinette')
+          .addTo(myMap);
+      });
+    });
+```
+```this.positionService.getPos().subscribe()``` ici nous appelons notre methode getPos du service que nous avons définis à la quel nous "souscrivons" maniere de recupérer le flux de données renvoyé par la methode ( pattern PubSub vu avec Herbault en Archi-Framework, )
+
+ensuite nous récupérons la reponse de l'api dans ce que nous avons appellé ```data``` qui est un objet de type any et qui contient plusieurs information à savoir ```records``` et ```parameters```(actuellement vous ne pouvez pas savoir ce que retourne l'api si vous ne l'avez pas développé vous même ou consulté la doc de l'api ou alors tester directement en debuggant pour voir ce qui est retourné), 
+
+Nous parcourons la données ```records``` avec un foreach ```records.foreach``` la données records contients les informations sur chaques points donc pour chaque points que nous récuperons nous ajoutons a notre carte ( que nous avons appelleé map ) comme ceci avec la methode ```marker()``` ```map.marker()```, qui prend en parametre les coordonées du points ainsi que l'icon que nous avons définis précedemment. ensuite nous utilisons la methode ```bindPopup()``` pour définir le text de la popup qui apparait au moment du clic sur le marker.
+
+Et enfin avec la methode ```addTo()``` nous l'ajoutons à notre map ```myMap``` que nous avons définis précedemment.
+
+
+
+
 
 
