@@ -60,10 +60,10 @@ export class PositionService {
       .watchQuery({
         query: this.query,
         variables: {
-          "lat": 48.863341, //c'est ici qu'on renseigne la position que l'on souhaite
+          "lat": 48.863341, // c'est ici qu'on renseigne la position que l'on souhaite
           "lng": 2.335471
         }
       })
-      .valueChanges
+      .valueChanges;
   }
 }
