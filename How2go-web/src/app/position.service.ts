@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {tap} from 'rxjs/operators';
-import {Apollo} from 'apollo-angular';
+import { tap } from 'rxjs/operators';
+import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 export interface LimeBike {
@@ -18,7 +18,7 @@ export class PositionService {
 
   currentLat: any;
   currentLong: any;
-  //requête de base qui renvoie tous les véhicules
+  // requête de base qui renvoie tous les véhicules
   query = gql`
           query ($lat: Float!, $lng: Float!) {
             vehicles (lat: $lat, lng: $lng) {
@@ -37,13 +37,41 @@ export class PositionService {
   constructor(
     private http: HttpClient,
     private apollo: Apollo
-    ) { }
+  ) { }
+
+  getPos(): Observable<any> {
+    const url = 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=bornes-podotactiles';
+    return this.http
+      .get<any>(url)
+      .pipe();
+  }
+
+  /*getLocation(): Observable<any> {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position)=>{
+          const longitude = position.coords.longitude;
+          const latitude = position.coords.latitude;
+          this.callApi(longitude, latitude);
+          return this.http.get<any>(this.callApi(longitude,latitude))
+        });
+    } else {
+       console.log("No support for geolocation");
+       return;
+    }
+  }
+
+  callApi(Longitude: number, Latitude: number){
+    const url = 'https://api-adresse.data.gouv.fr/reverse/?lon=${Longitude}&lat=${Latitude}'
+    //Call API
+    return url;
+  }*/
+
 
   /* FONCTIONS POUR RETROUVER LA POSITION DE L'UTILISATEUR */
   trackMe() {
-      navigator.geolocation.watchPosition((position) => {
-        this.showTrackingPosition(position);
-      });
+    navigator.geolocation.watchPosition((position) => {
+      this.showTrackingPosition(position);
+    });
 
   }
 
@@ -54,7 +82,7 @@ export class PositionService {
   }
   /******************************/
 
-  //retourne les véhicules
+  // retourne les véhicules
   getVehicles(): Observable<any> {
     return this.apollo
       .watchQuery({
