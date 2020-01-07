@@ -17,7 +17,7 @@ export class VehiclesComponent implements OnInit {
 
   ngOnInit() {
     //récupère les véhicules
-    this.vehicles = this.positionService.getVehicles().pipe(map(({data}) => data.vehicles));
+    this.vehicles = this.positionService.getVehicles(2.335471,48.863341).pipe(map(({data}) => data.vehicles));
   }
 
 }

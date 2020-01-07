@@ -45,51 +45,15 @@ export class PositionService {
       .get<any>(url)
       .pipe();
   }
-
-  /*getLocation(): Observable<any> {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position)=>{
-          const longitude = position.coords.longitude;
-          const latitude = position.coords.latitude;
-          this.callApi(longitude, latitude);
-          return this.http.get<any>(this.callApi(longitude,latitude))
-        });
-    } else {
-       console.log("No support for geolocation");
-       return;
-    }
-  }
-
-  callApi(Longitude: number, Latitude: number){
-    const url = 'https://api-adresse.data.gouv.fr/reverse/?lon=${Longitude}&lat=${Latitude}'
-    //Call API
-    return url;
-  }*/
-
-
-  /* FONCTIONS POUR RETROUVER LA POSITION DE L'UTILISATEUR */
-  trackMe() {
-    navigator.geolocation.watchPosition((position) => {
-      this.showTrackingPosition(position);
-    });
-
-  }
-
-  showTrackingPosition(position) {
-    console.log(`tracking postion:  ${position.coords.latitude} - ${position.coords.longitude}`);
-    this.currentLat = position.coords.latitude;
-    this.currentLong = position.coords.longitude;
-  }
-  /******************************/
-
+  
   // retourne les véhicules
-  getVehicles(): Observable<any> {
+  getVehicles(longitude, latitude): Observable<any> {
     return this.apollo
       .watchQuery({
         query: this.query,
         variables: {
-          "lat": 48.863341, // c'est ici qu'on renseigne la position que l'on souhaite
-          "lng": 2.335471
+          "lat": latitude, // c'est ici qu'on renseigne la position que l'on souhaite
+          "lng": longitude
         }
       })
       .valueChanges;
