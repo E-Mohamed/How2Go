@@ -50,6 +50,11 @@ export class AppComponent {
   /* CRÉE ET INITIALISE UNE MAP NON GEOLOCALISEE */
   private initMap(){
     this.myMap = map.map('map').setView([48.819131,2.320939], 20);
+    map
+      .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Map'
+      })
+      .addTo(this.myMap);
   }
 
 
