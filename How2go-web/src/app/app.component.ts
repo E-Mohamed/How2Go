@@ -27,7 +27,6 @@ export class AppComponent {
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
     this.initMapGeolocation();
-    this.addVehicleMarkersGeolocation();
 
     /*** TEST AVEC UNE POSITION SUR PARIS (commenter les deux lignes ci-dessus) ***/
     /*  this.initMap();
@@ -39,12 +38,22 @@ export class AppComponent {
 
   /* CRÉE ET INITIALISE UNE MAP GEOLOCALISEE */
   private initMapGeolocation(){
-    this.myMap = map.map('map').locate({setView: true, maxZoom:20});
-    map
-      .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: 'Map'
-      })
-      .addTo(this.myMap);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.longitude = position.coords.longitude;
+        this.latitude = position.coords.latitude;
+        this.myMap = map.map('map').setView([this.latitude,this.longitude], 20);
+        map
+          .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: 'Map'
+          })
+          .addTo(this.myMap);
+        this.addVehicleMarkersGeolocation();
+      });
+    }
+
+
   }
 
   /* CRÉE ET INITIALISE UNE MAP NON GEOLOCALISEE */
@@ -60,7 +69,7 @@ export class AppComponent {
 
   /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION GEOLOCALISES */
   private addVehicleMarkersGeolocation(){
-    this.positionService.getVehicles(this.myMap.getCenter().lng,this.myMap.getCenter().lat).subscribe((vehicle:any) => {
+    this.positionService.getVehicles(this.longitude,this.latitude).subscribe((vehicle:any) => {
       for(let point of vehicle.data.vehicles){
         map.marker(
           [
@@ -72,6 +81,7 @@ export class AppComponent {
           .addTo(this.myMap);
       }
     })
+
   }
 
   /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION NON GEOLOCALISES */
