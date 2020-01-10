@@ -1,7 +1,17 @@
-<div class="map-container">
-  <div class="map-frame">
-    <div id="map"></div>
+<div class="map-container" style="position: relative; height: 500px;">
+  <div class="map-frame"style="position: relative;height: inherit;width: inherit;">
+    <div id="map" ></div>
   </div>
 </div>
+<div class='pointer'></div>
+
+<div>
+  <button (click)="changePositionGeolocation()">Me géolocaliser</button>
+  <input matInput placeholder="Entrer le nom d'une ville" [formControl]="search" [value]="search.value" (keyup)="keyupCallback()" />
+</div>
+
+<ul>
+  <li *ngFor="let city of cities"><button (click)="changePosition(city)">{{city.label}}</button></li>
+</ul>
 
 <router-outlet></router-outlet>

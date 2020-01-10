@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import * as map from 'leaflet';
 import { PositionService } from './position.service';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import {FormControl} from '@angular/forms';
 
 
 
@@ -18,21 +20,20 @@ export class AppComponent {
     iconAnchor: [13, 41],
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
   });
+
   longitude;
   latitude;
   myMap;
+  private search: FormControl;
+  cities: any;
 
   constructor(private positionService: PositionService) { }
 
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
     this.initMapGeolocation();
-
-    /*** TEST AVEC UNE POSITION SUR PARIS (commenter les deux lignes ci-dessus) ***/
-    /*  this.initMap();
-        this.addVehicleMarkers(); */
-
     this.addTrotinetteMarkers();
+    this.search = new FormControl();
   }
 
 
@@ -50,22 +51,13 @@ export class AppComponent {
           })
           .addTo(this.myMap);
         this.addVehicleMarkersGeolocation();
+
+
       });
     }
 
 
   }
-
-  /* CRÉE ET INITIALISE UNE MAP NON GEOLOCALISEE */
-  private initMap(){
-    this.myMap = map.map('map').setView([48.819131,2.320939], 20);
-    map
-      .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: 'Map'
-      })
-      .addTo(this.myMap);
-  }
-
 
   /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION GEOLOCALISES */
   private addVehicleMarkersGeolocation(){
@@ -85,8 +77,8 @@ export class AppComponent {
   }
 
   /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION NON GEOLOCALISES */
-  private addVehicleMarkers(){
-    this.positionService.getVehicles(2.320939,48.819131).subscribe((vehicle:any) => {
+  private addVehicleMarkers(longitude,latitude){
+    this.positionService.getVehicles(longitude,latitude).subscribe((vehicle:any) => {
       for(let point of vehicle.data.vehicles){
         //console.log(point);
         map.marker(
@@ -115,6 +107,26 @@ export class AppComponent {
           .addTo(this.myMap);
       });
     });
+  }
+
+  // autocomplétion des villes
+  keyupCallback() {
+    const provider = new OpenStreetMapProvider();
+    provider.search({ query: this.search.value }).then((results) => {
+      this.cities = results;
+    });
+  }
+
+  // change la position de la carte -> click sur le nom d'une ville
+  changePosition(city) {
+    this.myMap.setView(new map.LatLng(city.y, city.x));
+    this.addVehicleMarkers(city.x, city.y);
+  }
+
+  // change la position de la carte -> géolocalisation
+  changePositionGeolocation(){
+    this.myMap.setView(new map.LatLng(this.latitude, this.longitude));
+    this.addVehicleMarkers(this.longitude, this.latitude);
   }
 
 }
