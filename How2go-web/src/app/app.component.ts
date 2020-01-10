@@ -39,10 +39,10 @@ export class AppComponent {
   /* CRÉE ET INITIALISE UNE MAP GEOLOCALISEE */
   private initMapGeolocation(){
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.longitude = position.coords.longitude;
-        this.latitude = position.coords.latitude;
+//    if (navigator.geolocation) {
+  //    navigator.geolocation.getCurrentPosition((position) => {
+        this.longitude = 2.3524;
+        this.latitude = 48.8605;
         this.myMap = map.map('map').setView([this.latitude,this.longitude], 20);
         map
           .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -50,8 +50,8 @@ export class AppComponent {
           })
           .addTo(this.myMap);
         this.addVehicleMarkersGeolocation();
-      });
-    }
+    //  });
+    //}
 
 
   }
@@ -71,13 +71,14 @@ export class AppComponent {
   private addVehicleMarkersGeolocation(){
     this.positionService.getVehicles(this.longitude,this.latitude).subscribe((vehicle:any) => {
       for(let point of vehicle.data.vehicles){
+        console.log(point.id);
         map.marker(
           [
             point.lat,
             point.lng
           ],
           { icon: this.myIcon }
-        ).bindPopup(point.provider.name)
+        ).bindPopup('<a type="submit" href="'+point.provider.name+'://" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">'+point.provider.name+'</a></br>'+point.attributes)
           .addTo(this.myMap);
       }
     })

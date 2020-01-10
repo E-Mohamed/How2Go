@@ -26,9 +26,9 @@ export class PositionService {
               type
               attributes
               lat
-              lng
+              lng                      
               provider {
-                name
+                name                                
               }
             }
           }
