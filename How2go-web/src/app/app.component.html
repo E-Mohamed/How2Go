@@ -13,9 +13,5 @@
 <ul>
   <li *ngFor="let city of cities"><button (click)="changePosition(city)">{{city.label}}</button></li>
 </ul>
-
-<ol>
-  <li *ngFor="let v of vehicles"><i>{{v.provider.name}}</i></li>
-</ol>
-
+<app-vehicles [vehicles]="vehicles"></app-vehicles>
 <router-outlet></router-outlet>

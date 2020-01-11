@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, Output} from '@angular/core';
 import * as map from 'leaflet';
-import { PositionService } from './position.service';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import {FormControl} from '@angular/forms';
 import {Marker} from 'leaflet';
+import {Vehicle} from './vehicle';
+import {VehicleListQueryService} from './vehicle-list-query.service';
 
 
 
@@ -37,16 +38,15 @@ export class AppComponent {
   private search: FormControl;
 
   /* LISTE DES MOYENS DE TRANSPORT*/
-  vehicles: Array<any>;
+  vehicles: Vehicle[];
 
   cities: any;
 
-  constructor(private positionService: PositionService) { }
+  constructor(private vehicleListQueryService: VehicleListQueryService) { }
 
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
     this.initMapGeolocation();
-    // this.addTrotinetteMarkers();
     this.search = new FormControl();
   }
 
@@ -88,11 +88,13 @@ export class AppComponent {
 
   /* RETOURNES LES MOYENS DE TRANSPORT */
   private getVehicles(longitude: number, latitude: number) {
-    this.positionService.getVehicles(longitude, latitude).subscribe(vehicle => {
-      this.vehicles = vehicle.data.vehicles;
-      this.addMarkers();
-      console.log(vehicle.data.vehicles);
-    });
+    this.vehicleListQueryService.fetch({
+      lat: latitude, // c'est ici qu'on renseigne la position que l'on souhaite
+      lng: longitude
+    }).subscribe(({data}) => {
+        this.vehicles = data.vehicles;
+        this.addMarkers();
+      });
   }
 
   /* GESTION MARKERS */
@@ -115,22 +117,6 @@ export class AppComponent {
   }
   /******************/
 
-  // TO DO: Delete if useless
-  /*
-  private addTrotinetteMarkers() {
-    this.positionService.getPos().subscribe((data: any) => {
-      data.records.forEach(point => {
-        map.marker(
-          [
-            point.geometry.coordinates[1],
-            point.geometry.coordinates[0]
-          ],
-          { icon: this.myIcon }
-        ).bindPopup('bla bla de la trottinette')
-          .addTo(this.myMap);
-      });
-    });
-  }*/
 
   // autocomplétion des villes
   keyupCallback() {
