@@ -3,6 +3,7 @@ import * as map from 'leaflet';
 import { PositionService } from './position.service';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import {FormControl} from '@angular/forms';
+import {Marker} from 'leaflet';
 
 
 
@@ -11,6 +12,7 @@ import {FormControl} from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   title = 'How2go-web';
 
@@ -21,10 +23,22 @@ export class AppComponent {
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
   });
 
+  /* COORDONNEES DE LA GEOLOCALISATION */
   longitude;
   latitude;
+
+  /* MAP */
   myMap;
+  layerGroup;
+
+  geolocationAuthorized = false;
+
+  /* BARRE RECHERCHE DE LIEUX */
   private search: FormControl;
+
+  /* LISTE DES MOYENS DE TRANSPORT*/
+  vehicles: any;
+
   cities: any;
 
   constructor(private positionService: PositionService) { }
@@ -32,69 +46,76 @@ export class AppComponent {
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
     this.initMapGeolocation();
-    this.addTrotinetteMarkers();
+    //this.addTrotinetteMarkers();
     this.search = new FormControl();
   }
 
 
   /* CRÉE ET INITIALISE UNE MAP GEOLOCALISEE */
-  private initMapGeolocation(){
-
+  private initMapGeolocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
+        this.geolocationAuthorized = true;
+
         this.longitude = position.coords.longitude;
         this.latitude = position.coords.latitude;
-        this.myMap = map.map('map').setView([this.latitude,this.longitude], 20);
+        this.myMap = map.map('map').setView([this.latitude, this.longitude], 20);
         map
           .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: 'Map'
           })
           .addTo(this.myMap);
-        this.addVehicleMarkersGeolocation();
+        this.layerGroup = map.layerGroup().addTo(this.myMap);
 
-
+        this.getVehicles(this.longitude, this.latitude);
       });
     }
-
-
   }
 
-  /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION GEOLOCALISES */
-  private addVehicleMarkersGeolocation(){
-    this.positionService.getVehicles(this.longitude,this.latitude).subscribe((vehicle:any) => {
-      for(let point of vehicle.data.vehicles){
-        map.marker(
-          [
-            point.lat,
-            point.lng
-          ],
-          { icon: this.myIcon }
-        ).bindPopup(point.provider.name)
-          .addTo(this.myMap);
-      }
-    })
 
+  /* CRÉE ET INITIALISE UNE MAP NON GEOLOCALISEE */
+  private initMap(latitude, longitude) {
+    this.myMap = map.map('map').setView([latitude, longitude], 20);
+    map
+      .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Map'
+      })
+      .addTo(this.myMap);
+
+    this.layerGroup = map.layerGroup().addTo(this.myMap);
+    this.getVehicles(longitude, latitude);
   }
 
-  /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION NON GEOLOCALISES */
-  private addVehicleMarkers(longitude,latitude){
-    this.positionService.getVehicles(longitude,latitude).subscribe((vehicle:any) => {
-      for(let point of vehicle.data.vehicles){
-        //console.log(point);
-        map.marker(
-          [
-            point.lat,
-            point.lng
-          ],
-          { icon: this.myIcon }
-        ).bindPopup(point.provider.name)
-          .addTo(this.myMap);
-      }
+  /* RETOURNES LES MOYENS DE TRANSPORT */
+  private getVehicles(longitude, latitude) {
+    this.positionService.getVehicles(longitude, latitude).subscribe(vehicle => {
+      this.vehicles = vehicle.data.vehicles;
+      this.addMarkers();
+      console.log(vehicle.data.vehicles);
     });
   }
 
+  /* GESTION MARKERS */
+  private addMarkers() {
+    this.removeMarkers();
+    for (let point of this.vehicles) {
+      // create markers
+      map.marker(
+        [
+          point.lat,
+          point.lng
+        ],
+        { icon: this.myIcon }).bindPopup(point.provider.name).addTo(this.layerGroup);
+    }
+  }
 
-  private addTrotinetteMarkers(){
+  // remove all the markers in one go
+  private removeMarkers() {
+    this.layerGroup.clearLayers();
+  }
+  /******************/
+
+  private addTrotinetteMarkers() {
     this.positionService.getPos().subscribe((data: any) => {
       data.records.forEach(point => {
         map.marker(
@@ -119,14 +140,21 @@ export class AppComponent {
 
   // change la position de la carte -> click sur le nom d'une ville
   changePosition(city) {
-    this.myMap.setView(new map.LatLng(city.y, city.x));
-    this.addVehicleMarkers(city.x, city.y);
+    // si la géolocalisation n'est pas autorisée => réinitialisation de la map
+    if (!this.geolocationAuthorized) {
+      this.initMap(city.y, city.x);
+    } else {
+      this.myMap.setView(new map.LatLng(city.y, city.x));
+      this.getVehicles(city.x, city.y);
+    }
+
   }
 
   // change la position de la carte -> géolocalisation
-  changePositionGeolocation(){
+  changePositionGeolocation() {
     this.myMap.setView(new map.LatLng(this.latitude, this.longitude));
-    this.addVehicleMarkers(this.longitude, this.latitude);
+    this.getVehicles(this.longitude, this.latitude);
   }
 
 }
+
