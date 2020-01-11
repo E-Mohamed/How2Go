@@ -1,3 +1,16 @@
-<p>
-  list works!
-</p>
+<ion-list>
+  <ion-list-header>
+    Vehicle's list
+  </ion-list-header>
+
+  <ion-item *ngFor="let entry of vehicles | async">
+    <ion-avatar slot="start">
+      <img src="../../../assets/lime.jpg">
+    </ion-avatar>
+    <ion-label>
+      <h2>{{entry.provider.name}}</h2>
+      
+      <p>{{entry.lng}}, {{entry.lat}}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>

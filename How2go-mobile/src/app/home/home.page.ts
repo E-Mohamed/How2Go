@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { Map, tileLayer, marker, icon } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
@@ -12,6 +12,7 @@ export class HomePage {
   lat: number;
   long: number;
   map: Map;
+
   constructor(private geoLocation: Geolocation) { }
 
   ionViewDidEnter() {
@@ -22,34 +23,39 @@ export class HomePage {
     this.geoLocation.getCurrentPosition().then((resp) => {
       this.lat = resp.coords.latitude;
       this.long = resp.coords.longitude;
-      console.log(resp.coords.latitude);
-      console.log(this.lat);
-      console.log(this.long);
       this.map.setView([this.lat, this.long], 15);
-
     }).catch((error) => {
       console.log('Error getting location', error);
     });
-    
+
 
   }
 
   leafletMap() {
-    console.log(this.lat);
+    this.map = new Map('mapId');
     // Initialise map with user current position
-    this.map = new Map('mapId').setView([48.9268721, 2.339048], 15);
-    tileLayer(
-      'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-      {
-        attribution: 'How2Go'
-      }
-    ).addTo(this.map);
+    this.geoLocation.getCurrentPosition().then((resp) => {
+      this.map.setView([resp.coords.latitude, resp.coords.longitude], 15);
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
 
-    // Add a marker to the map
-    marker([48.936616, 2.324789])
-      .addTo(this.map)
-      .bindPopup('Trotinnette');
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
 
+    const customMarkerIcon = icon({
+      iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png',
+      iconSize: [26, 41],
+      iconAnchor: [13, 41],
+      popupAnchor: [0, -41]
+
+    });
+
+    marker([48.9268721, 2.339048], { icon: customMarkerIcon })
+      .bindPopup(`<b>trotinette</b>`, { autoClose: false })
+      .addTo(this.map);
+    // .on('click', () => this.router.navigateByUrl('/')) on click naviate to vehicle page
   }
 
   /** Remove map when we have multiple map object */
