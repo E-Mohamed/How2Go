@@ -19,6 +19,7 @@ export class PositionService {
   currentLat: any;
   currentLong: any;
   // requête de base qui renvoie tous les véhicules
+  // TO DO : Créer une constante dans un fichier partager et recuperer la requête depuis le fichier
   query = gql`
           query ($lat: Float!, $lng: Float!) {
             vehicles (lat: $lat, lng: $lng) {
@@ -39,15 +40,17 @@ export class PositionService {
     private apollo: Apollo
   ) { }
 
+  // TO DO : Delete if not use
+  /*
   getPos(): Observable<any> {
     const url = 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=bornes-podotactiles';
     return this.http
       .get<any>(url)
       .pipe();
-  }
-  
+  }*/
+
   // retourne les véhicules
-  getVehicles(longitude, latitude): Observable<any> {
+  getVehicles(longitude: number, latitude: number): Observable<any> {
     return this.apollo
       .watchQuery({
         query: this.query,

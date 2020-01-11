@@ -24,12 +24,12 @@ export class AppComponent {
   });
 
   /* COORDONNEES DE LA GEOLOCALISATION */
-  longitude;
-  latitude;
+  longitude: number;
+  latitude: number;
 
   /* MAP */
-  myMap;
-  layerGroup;
+  myMap: any;
+  layerGroup: any;
 
   geolocationAuthorized = false;
 
@@ -37,7 +37,7 @@ export class AppComponent {
   private search: FormControl;
 
   /* LISTE DES MOYENS DE TRANSPORT*/
-  vehicles: any;
+  vehicles: Array<any>;
 
   cities: any;
 
@@ -46,7 +46,7 @@ export class AppComponent {
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
     this.initMapGeolocation();
-    //this.addTrotinetteMarkers();
+    // this.addTrotinetteMarkers();
     this.search = new FormControl();
   }
 
@@ -87,7 +87,7 @@ export class AppComponent {
   }
 
   /* RETOURNES LES MOYENS DE TRANSPORT */
-  private getVehicles(longitude, latitude) {
+  private getVehicles(longitude: number, latitude: number) {
     this.positionService.getVehicles(longitude, latitude).subscribe(vehicle => {
       this.vehicles = vehicle.data.vehicles;
       this.addMarkers();
@@ -115,6 +115,8 @@ export class AppComponent {
   }
   /******************/
 
+  // TO DO: Delete if useless
+  /*
   private addTrotinetteMarkers() {
     this.positionService.getPos().subscribe((data: any) => {
       data.records.forEach(point => {
@@ -128,7 +130,7 @@ export class AppComponent {
           .addTo(this.myMap);
       });
     });
-  }
+  }*/
 
   // autocomplétion des villes
   keyupCallback() {
@@ -139,7 +141,7 @@ export class AppComponent {
   }
 
   // change la position de la carte -> click sur le nom d'une ville
-  changePosition(city) {
+  changePosition(city: any) {
     // si la géolocalisation n'est pas autorisée => réinitialisation de la map
     if (!this.geolocationAuthorized) {
       this.initMap(city.y, city.x);

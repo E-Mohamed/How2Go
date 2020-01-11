@@ -9,10 +9,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let entry of vehicles | async">
-      <td><b>{{entry.provider.name}}</b></td>
-      <td>{{entry.lng}}</td>
-      <td>{{entry.lat}}</td>
+    <tr *ngFor="let vehicle of vehicles | async">
+      <td><b>{{vehicle.provider.name}}</b></td>
+      <td>{{vehicle.lng}}</td>
+      <td>{{vehicle.lat}}</td>
     </tr>
   </tbody>
 </table>
