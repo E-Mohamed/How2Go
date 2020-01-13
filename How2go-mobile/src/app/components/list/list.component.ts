@@ -11,19 +11,43 @@ import { map } from 'rxjs/operators';
 })
 export class ListComponent implements OnInit {
 
-  vehicles: Observable<any>;
+  vehicles: any;
   logo = '../../../assets/images/lime.jpg';
+  dist: number;
 
   constructor(private vehicleService: VehicleService, private apollo: Apollo) { }
 
   ngOnInit() {
     // récupère les véhicules
     this.getVehicle();
-   }
+  }
 
   getVehicle() {
-    this.vehicles = this.vehicleService.getVehicles(2.335471, 48.863341).pipe(map(({ data }) => data.vehicles));
+    this.vehicleService.getVehicles(2.335471, 48.863341)
+      .subscribe((data: any) => {this.vehicles = data.vehicles;
+      });
 
   }
+
+
+  calculDistance(latUser: number, longUser: number, latVehicle: number, longVehicle: number) {
+
+  }
+
+ /*private addVehicleMarkersGeolocation() {
+    this.vehicleService.getVehicles(2.335471, 48.863341).subscribe((vehicle: any) => {
+      for (let point of vehicle.data.vehicles) {
+        map.marker(
+          [
+            point.lat,
+            point.lng
+          ],
+          { icon: this.myIcon }
+        ).bindPopup(point.provider.name)
+          .addTo(this.myMap);
+      }
+    })
+
+  }*/
 
 }
