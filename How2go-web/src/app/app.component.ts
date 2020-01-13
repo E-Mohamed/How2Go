@@ -48,7 +48,7 @@ export class AppComponent {
           .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: 'Map'
           })
-          .addTo(this.myMap);
+          .addTo(this.myMap);             
         this.addVehicleMarkersGeolocation();
     //  });
     //}
@@ -65,22 +65,37 @@ export class AppComponent {
       })
       .addTo(this.myMap);
   }
-
+  
+  private linkApplication(name): string{
+    
+    let userAgent = navigator.userAgent.toLowerCase(); 
+    let isAndroid = userAgent.indexOf("android") > -1; 
+    let isWindows = userAgent.indexOf("windows") > -1;     
+    let isMac = userAgent.indexOf("mac") > -1;
+    let isIphone = userAgent.indexOf("iphone") > -1;
+    if(isAndroid || isIphone){
+      return name+'://';
+    }
+    if(isWindows || isMac){
+      return 'https://www.google.com/search?q='+name;
+    }
+  
+  }
 
   /* AJOUTE LES MARKERS DES MOYENS DE LOCOMOTION GEOLOCALISES */
   private addVehicleMarkersGeolocation(){
     this.positionService.getVehicles(this.longitude,this.latitude).subscribe((vehicle:any) => {
       for(let point of vehicle.data.vehicles){
-        console.log(point.id);
+        let link = this.linkApplication(point.provider.name);
         map.marker(
           [
             point.lat,
             point.lng
           ],
           { icon: this.myIcon }
-        ).bindPopup('<a type="submit" href="'+point.provider.name+'://" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">'+point.provider.name+'</a></br>'+point.attributes)
+        ).bindPopup('<a type="submit" href="'+link+'" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">'+point.provider.name+'</a></br>')
           .addTo(this.myMap);
-      }
+      }      
     })
 
   }
