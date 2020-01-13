@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class ListComponent implements OnInit {
 
   vehicles: Observable<any>;
-  logo = '../../image/lime.jpg';
+  logo = '../../../assets/images/lime.jpg';
 
   constructor(private vehicleService: VehicleService, private apollo: Apollo) { }
 
