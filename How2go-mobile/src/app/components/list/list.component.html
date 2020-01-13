@@ -2,15 +2,26 @@
   <ion-list-header>
     Vehicle's list
   </ion-list-header>
-
-  <ion-item *ngFor="let entry of vehicles | async">
-    <ion-avatar slot="start">
-      <img src="../../../assets/lime.jpg">
-    </ion-avatar>
-    <ion-label>
-      <h2>{{entry.provider.name}}</h2>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Vehicles
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ion-item *ngFor="let entry of vehicles | async">
+        <ion-avatar slot="start">
+          <img src="{{logo}}">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{entry.provider.name}}</h2>
       
-      <p>{{entry.lng}}, {{entry.lat}}</p>
-    </ion-label>
-  </ion-item>
+          <p>{{entry.lng}}, {{entry.lat}}</p>
+        </ion-label>
+      </ion-item>
+    </mat-expansion-panel>
+    
+  </mat-accordion>
+
+  
 </ion-list>

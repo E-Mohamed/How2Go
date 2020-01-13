@@ -12,6 +12,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ComponentsModule } from './components/components.module';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     GraphQLModule,
     HttpClientModule,
-
+    BrowserAnimationsModule,
     ComponentsModule
   ],
   providers: [

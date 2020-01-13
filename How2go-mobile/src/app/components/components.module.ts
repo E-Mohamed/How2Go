@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { IonicModule } from '@ionic/angular';
 
+import { MatExpansionModule } from '@angular/material/expansion';
+
 
 
 
@@ -10,7 +12,8 @@ import { IonicModule } from '@ionic/angular';
   declarations: [ListComponent],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    MatExpansionModule
   ],
   exports: [ListComponent]
 
