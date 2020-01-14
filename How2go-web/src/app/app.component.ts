@@ -2,11 +2,9 @@ import {Component, Output} from '@angular/core';
 import * as map from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import {FormControl} from '@angular/forms';
-import {Marker} from 'leaflet';
+import {icon, Marker} from 'leaflet';
 import {Vehicle} from './vehicle';
 import {VehicleListQueryService} from './vehicle-list-query.service';
-
-
 
 @Component({
   selector: 'app-root',
@@ -18,11 +16,15 @@ export class AppComponent {
   title = 'How2go-web';
 
   myIcon = map.icon({
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png',
+    iconUrl: 'https://multicycles.org/img/mobike-2x.40d9c66f.png',
     iconSize: [26, 41],
     iconAnchor: [13, 41],
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
   });
+
+  /* LISTE DES MARKERS */
+  markers: string[];
+  tabProviders: string[];
 
   /* COORDONNEES DE LA GEOLOCALISATION */
   longitude: number;
@@ -46,6 +48,7 @@ export class AppComponent {
 
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
+    this.initCustomMarkers();
     this.initMapGeolocation();
     this.search = new FormControl();
   }
@@ -97,18 +100,42 @@ export class AppComponent {
       });
   }
 
+  private initCustomMarkers() {
+    console.log("test");
+    let iconUrl: string[];
+    iconUrl = ['https://i.ibb.co/DRJnK3v/birdlogo.png',
+      'bolt-placeholder',
+      'https://i.ibb.co/YN27vmd/bmobilitylogo.png',
+      'https://i.ibb.co/FgDtnky/circlogo.png',
+      'https://multicycles.org/img/cityscoot-2x.48f6bda8.png',
+      'https://i.ibb.co/HX5QQMB/dottlogo.png',
+      'https://i.ibb.co/4VGtjXm/jumplogo.png',
+      'https://multicycles.org/img/mobike-2x.40d9c66f.png',
+      'https://multicycles.org/img/tier-2x.e6d1964e.png',
+      'https://i.ibb.co/sRC0Rcx/veliblogo.png',
+      'https://i.ibb.co/xMBBB7r/voilogo.png',
+      'wind-placeholder'];
+    this.markers = iconUrl;
+
+  }
+
   /* GESTION MARKERS */
   private addMarkers() {
+    let fillTab: string[];
+    fillTab = ["Bird", "Bolt", "B Mobility", "Circ", "Cityscoot", "Dott", "Jump", "Mobike", "Tier", "Velib", "Voi", "Wind"];
+    this.tabProviders = fillTab;
     this.removeMarkers();
     for (let point of this.vehicles) {
       // create markers
+      let index = this.tabProviders.indexOf(point.provider.name);
+      this.myIcon.options.iconUrl = this.markers[index];
       map.marker(
         [
           point.lat,
           point.lng
         ],
         { icon: this.myIcon }).bindPopup(point.provider.name).addTo(this.layerGroup);
-    }
+}
   }
 
   // remove all the markers in one go
