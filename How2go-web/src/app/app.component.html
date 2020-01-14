@@ -10,6 +10,24 @@
   <input matInput placeholder="Entrer le nom d'une ville" [formControl]="search" [value]="search.value" (keyup)="keyupCallback()" />
 </div>
 
+<div>
+  <h3> Sélectionnez vos préférences</h3>
+  <div>
+    <input type="checkbox" id="lime">
+    <label for="lime">Lime</label>
+
+    <input type="checkbox" id="voi">
+    <label for="voi">Voi</label>
+
+    <input type="checkbox" id="scoot">
+    <label for="scoot">City Scoot</label>
+
+    <button (click)="filteredVehicles()">
+      Filtrer
+    </button>
+  </div>
+</div>
+
 <ul>
   <li *ngFor="let city of cities"><button (click)="changePosition(city)">{{city.label}}</button></li>
 </ul>

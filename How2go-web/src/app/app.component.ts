@@ -96,6 +96,12 @@ export class AppComponent {
         this.addMarkers();
       });
   }
+  /* RETOURNES LES MOYENS DE TRANSPORT FILTRES*/
+
+  private filteredVehicles(...args: string[]){
+    console.log("ok");
+  }
+
 
   /* GESTION MARKERS */
   private addMarkers() {
