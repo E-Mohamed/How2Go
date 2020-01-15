@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {PositionService} from "../position.service";
-import {Apollo} from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Component, Input, OnInit} from '@angular/core';
+import {VehicleListQueryService} from '../vehicle-list-query.service';
+import {Vehicle} from '../vehicle';
 
 @Component({
   selector: 'app-vehicles',
@@ -11,13 +9,28 @@ import { map } from 'rxjs/operators';
 })
 export class VehiclesComponent implements OnInit {
 
-  vehicles: Observable<any>;
+  @Input() vehicles: Vehicle[];
+  limes: any[];
 
-  constructor(private positionService: PositionService, private apollo: Apollo) { }
+  constructor(private vehicleListQueryService: VehicleListQueryService) { }
 
   ngOnInit() {
-    //récupère les véhicules
-    this.vehicles = this.positionService.getVehicles(2.335471,48.863341).pipe(map(({data}) => data.vehicles));
   }
+
+  // On recupere les limes de notre tableau de trotinette
+  getLime() {
+    // methode pour mapper des elements d'une liste
+    this.limes = this.vehicles.map(v => v.provider.name === 'Lime');
+  }
+
+
+  sortDistance() {
+    this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
+  }
+
+  sortType() {
+    this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.provider.name > b.provider.name) ? 1 : -1);
+  }
+
 
 }
