@@ -45,6 +45,12 @@ export class AppComponent {
 
   cities: any;
 
+  /* FILTRES VEHICLES */
+  filteredVehicles: Vehicle[];
+  isFiltered = false;
+  vehicleTypes: string[];
+
+
   constructor(private vehicleListQueryService: VehicleListQueryService) {
   }
 
@@ -99,8 +105,10 @@ export class AppComponent {
       lng: longitude
     }).subscribe(({data}) => {
       this.vehicles = data.vehicles;
-      this.addMarkers();
+      this.addMarkers(data.vehicles);
       this.distanceCalculator(longitude, latitude);
+      this.vehicleTypes = Array.from(new Set(this.vehicles.map(v => v.provider.name)));
+      console.log(this.vehicleTypes)
     });
   }
 
@@ -124,7 +132,7 @@ export class AppComponent {
   }
 
   /* GESTION MARKERS */
-  private addMarkers() {
+  private addMarkers(vehicles: Vehicle[]) {
     let fillTab: string[];
     fillTab = ["Bird", "Bolt", "B Mobility", "Circ", "Cityscoot", "Dott", "Jump", "Mobike", "Tier", "Velib", "Voi", "Wind"];
     this.tabProviders = fillTab;
@@ -135,10 +143,14 @@ export class AppComponent {
         this.longitude
       ],
       { icon: this.myIcon }).addTo(this.layerGroup);
-    for (const point of this.vehicles) {
+    for (const point of vehicles) {
       // create markers
       const index = this.tabProviders.indexOf(point.provider.name);
-      this.myIcon.options.iconUrl = this.markers[index];
+      if(this.markers[index]){
+        this.myIcon.options.iconUrl = this.markers[index];
+      } else {
+        this.myIcon.options.iconUrl = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png'
+      }
       map.marker(
         [
           point.lat,
@@ -208,4 +220,19 @@ export class AppComponent {
   private orderVehicles() {
     this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
   }
+
+
+  filterVehicles(type) {
+    this.isFiltered = true;
+    this.filteredVehicles = this.vehicles.filter(value => value.provider.name === type);
+    this.removeMarkers();
+    this.addMarkers(this.filteredVehicles);
+  }
+
+  resetFilter() {
+    this.isFiltered = false;
+    this.removeMarkers();
+    this.addMarkers(this.vehicles);
+  }
+
 }

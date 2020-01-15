@@ -10,19 +10,13 @@ import {Vehicle} from '../vehicle';
 export class VehiclesComponent implements OnInit {
 
   @Input() vehicles: Vehicle[];
-  limes: any[];
+  @Input() filteredVehicles: Vehicle[];
+  @Input() isFiltered: string;
 
   constructor(private vehicleListQueryService: VehicleListQueryService) { }
 
   ngOnInit() {
   }
-
-  // On recupere les limes de notre tableau de trotinette
-  getLime() {
-    // methode pour mapper des elements d'une liste
-    this.limes = this.vehicles.map(v => v.provider.name === 'Lime');
-  }
-
 
   sortDistance() {
     this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
