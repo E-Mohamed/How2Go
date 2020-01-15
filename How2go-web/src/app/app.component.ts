@@ -16,7 +16,7 @@ export class AppComponent {
   title = 'How2go-web';
 
   myIcon = map.icon({
-    iconUrl: 'https://multicycles.org/img/mobike-2x.40d9c66f.png',
+    iconUrl:'https://i.ibb.co/HYCDygT/current-position.png',
     iconSize: [26, 41],
     iconAnchor: [13, 41],
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
