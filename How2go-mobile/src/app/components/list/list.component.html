@@ -2,48 +2,25 @@
   <ion-list-header>
     Vehicle's list
   </ion-list-header>
-  <mat-accordion>
+  <mat-accordion *ngFor="let n of vehicleName">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Bird
+          {{n}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <ion-item *ngFor="let _b of bird">
+      <ion-item *ngFor="let _v of getTabByName(n)">
         <ion-avatar slot="start">
           <img src="{{logo}}">
         </ion-avatar>
         <ion-label>
-          <h2>{{_b.provider.name}}</h2>
+          <h2>{{_v.provider.name}}</h2>
       
-          <p>{{_b.lng}}, {{_b.lat}}</p>
+          <p>{{_v.lng}}, {{_v.lat}}</p>
         </ion-label>
       </ion-item>
     </mat-expansion-panel>
     
   </mat-accordion>
-
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Lime
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <ion-item *ngFor="let _l of lime">
-        <ion-avatar slot="start">
-          <img src="{{logo}}">
-        </ion-avatar>
-        <ion-label>
-          <h2>{{_l.provider.name}}</h2>
-  
-          <p>{{_l.lng}}, {{_l.lat}}</p>
-        </ion-label>
-      </ion-item>
-    </mat-expansion-panel>
-  
-  </mat-accordion>
-  
-
   
 </ion-list>
