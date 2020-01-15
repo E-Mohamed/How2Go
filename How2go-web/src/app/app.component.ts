@@ -70,7 +70,7 @@ export class AppComponent {
             attribution: 'Map'
           })
           .addTo(this.myMap);
- 
+
         this.layerGroup = map.layerGroup().addTo(this.myMap);
 
         this.getVehicles(this.longitude, this.latitude);
@@ -129,6 +129,12 @@ export class AppComponent {
     fillTab = ["Bird", "Bolt", "B Mobility", "Circ", "Cityscoot", "Dott", "Jump", "Mobike", "Tier", "Velib", "Voi", "Wind"];
     this.tabProviders = fillTab;
     this.removeMarkers();
+    map.marker(
+      [
+        this.latitude,
+        this.longitude
+      ],
+      { icon: this.myIcon }).addTo(this.layerGroup);
     for (const point of this.vehicles) {
       // create markers
       const index = this.tabProviders.indexOf(point.provider.name);
