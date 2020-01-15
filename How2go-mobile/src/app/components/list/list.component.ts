@@ -3,6 +3,7 @@ import { VehicleService } from '../../vehicle.service';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Vehicle } from '../../models/vehicle.model';
 
 @Component({
   selector: 'app-list',
@@ -11,17 +12,17 @@ import { map } from 'rxjs/operators';
 })
 export class ListComponent implements OnInit {
 
-  vehicles: Observable<any>;
+  vehicles: Vehicle[];
   logo = '../../../assets/images/lime.jpg';
 
   constructor(private vehicleService: VehicleService, private apollo: Apollo) { }
 
   ngOnInit() {
     // récupère les véhicules
-    this.getVehicle();
+    this.getVehicles();
    }
 
-  getVehicle() {
+  getVehicles() {
     this.vehicleService.getVehicles(2.335471, 48.863341)
       .subscribe(({ data }) => this.vehicles = data.vehicles);
 

@@ -13,6 +13,14 @@ export class HomePage {
   long: number;
   map: Map;
 
+  customMarkerIcon = icon({
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png',
+    iconSize: [26, 41],
+    iconAnchor: [13, 41],
+    popupAnchor: [0, -41]
+
+  });
+
   constructor(private geoLocation: Geolocation) { }
 
   ionViewDidEnter() {
@@ -27,8 +35,6 @@ export class HomePage {
     }).catch((error) => {
       console.log('Error getting location', error);
     });
-
-
   }
 
   leafletMap() {
@@ -44,15 +50,9 @@ export class HomePage {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    const customMarkerIcon = icon({
-      iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png',
-      iconSize: [26, 41],
-      iconAnchor: [13, 41],
-      popupAnchor: [0, -41]
 
-    });
 
-    marker([48.9268721, 2.339048], { icon: customMarkerIcon })
+    marker([48.9268721, 2.339048], { icon: this.customMarkerIcon })
       .bindPopup(`<b>trotinette</b>`, { autoClose: false })
       .addTo(this.map);
     // .on('click', () => this.router.navigateByUrl('/')) on click naviate to vehicle page

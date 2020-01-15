@@ -9,14 +9,14 @@
           Vehicles
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <ion-item *ngFor="let entry of vehicles">
+      <ion-item *ngFor="let _v of vehicles">
         <ion-avatar slot="start">
           <img src="{{logo}}">
         </ion-avatar>
         <ion-label>
-          <h2>{{entry.provider.name}}</h2>
+          <h2>{{_v.provider.name}}</h2>
       
-          <p>{{entry.lng}}, {{entry.lat}}</p>
+          <p>{{_v.lng}}, {{_v.lat}}</p>
         </ion-label>
       </ion-item>
     </mat-expansion-panel>
