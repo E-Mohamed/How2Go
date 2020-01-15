@@ -3,6 +3,7 @@ export class Vehicle {
   type: string;
   lat: number;
   lng: number;
+  distance: number;
   provider: {
     name: string;
   };
