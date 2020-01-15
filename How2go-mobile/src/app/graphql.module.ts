@@ -3,7 +3,7 @@ import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
 import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 
-const uri = 'https://flow-api.fluctuo.com/v1?access_token=kCumOGxYVctUH1RjilZVZpXBe6OMLMDf'; 
+const uri = 'https://flow-api.fluctuo.com/v1?access_token=UF3WdcgGpAVJJ873ziVfSDvwikzVPDg6'; 
 export function createApollo(httpLink: HttpLink) {
   return {
     link: httpLink.create({uri}),
