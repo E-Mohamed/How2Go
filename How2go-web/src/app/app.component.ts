@@ -5,6 +5,7 @@ import {FormControl} from '@angular/forms';
 import {icon, Marker} from 'leaflet';
 import {Vehicle} from './vehicle';
 import {VehicleListQueryService} from './vehicle-list-query.service';
+import {moveCursor} from 'readline';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +45,8 @@ export class AppComponent {
 
   cities: any;
 
-  constructor(private vehicleListQueryService: VehicleListQueryService) { }
+  constructor(private vehicleListQueryService: VehicleListQueryService) {
+  }
 
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
@@ -68,7 +70,7 @@ export class AppComponent {
             attribution: 'Map'
           })
           .addTo(this.myMap);
- 
+
         this.layerGroup = map.layerGroup().addTo(this.myMap);
 
         this.getVehicles(this.longitude, this.latitude);
@@ -96,9 +98,10 @@ export class AppComponent {
       lat: latitude, // c'est ici qu'on renseigne la position que l'on souhaite
       lng: longitude
     }).subscribe(({data}) => {
-        this.vehicles = data.vehicles;
-        this.addMarkers();
-      });
+      this.vehicles = data.vehicles;
+      this.addMarkers();
+      this.distanceCalculator(longitude, latitude);
+    });
   }
 
   private initCustomMarkers() {
@@ -132,30 +135,31 @@ export class AppComponent {
         this.longitude
       ],
       { icon: this.myIcon }).addTo(this.layerGroup);
-    for (let point of this.vehicles) {
+    for (const point of this.vehicles) {
       // create markers
-      let index = this.tabProviders.indexOf(point.provider.name);
+      const index = this.tabProviders.indexOf(point.provider.name);
       this.myIcon.options.iconUrl = this.markers[index];
       map.marker(
         [
           point.lat,
           point.lng
         ],
-        { icon: this.myIcon }).bindPopup(point.provider.name).addTo(this.layerGroup);
-}
+        {icon: this.myIcon}).bindPopup(point.provider.name).addTo(this.layerGroup);
+    }
   }
 
   // remove all the markers in one go
   private removeMarkers() {
     this.layerGroup.clearLayers();
   }
+
   /******************/
 
 
   // autocomplétion des villes
   keyupCallback() {
     const provider = new OpenStreetMapProvider();
-    provider.search({ query: this.search.value }).then((results) => {
+    provider.search({query: this.search.value}).then((results) => {
       this.cities = results;
     });
   }
@@ -178,5 +182,30 @@ export class AppComponent {
     this.getVehicles(this.longitude, this.latitude);
   }
 
-}
+  private distanceCalculator(lon1, lat1) {
+    for (const vehicle of this.vehicles) {
+      if ((lat1 === vehicle.lat) && (lon1 === vehicle.lng)) {
+        return 0;
+      } else {
+        const radlat1 = Math.PI * lat1 / 180;
+        const radlat2 = Math.PI * vehicle.lat / 180;
+        const theta = lon1 - vehicle.lng;
+        const radtheta = Math.PI * theta / 180;
+        let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) {
+          dist = 1;
+        }
+        dist = Math.acos(dist);
+        dist = dist * 180 / Math.PI;
+        dist = dist * 60 * 1.1515 * 1.609344 * 1000;
 
+        vehicle.distance = dist;
+      }
+    }
+    this.orderVehicles();
+  }
+
+  private orderVehicles() {
+    this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
+  }
+}
