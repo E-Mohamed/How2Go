@@ -190,12 +190,15 @@ export class AppComponent {
         }
         dist = Math.acos(dist);
         dist = dist * 180 / Math.PI;
-        dist = dist * 60 * 1.1515 * 1.609344;
+        dist = dist * 60 * 1.1515 * 1.609344 * 1000;
 
         vehicle.distance = dist;
       }
     }
-
+    this.orderVehicles();
   }
 
+  private orderVehicles() {
+    this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
+  }
 }

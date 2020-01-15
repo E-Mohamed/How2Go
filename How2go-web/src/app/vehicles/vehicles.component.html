@@ -1,3 +1,5 @@
+<button (click)="sortDistance()">Trier du plus proche au plus éloigné</button>
+<button (click)="sortType()">Trier par type</button>
 <ol>
-  <li *ngFor="let v of vehicles">{{v.provider.name}}, {{v.distance}}</li>
+  <li *ngFor="let v of vehicles">{{v.provider.name}}, distance: {{v.distance | number:'1.0-0'}}m</li>
 </ol>
