@@ -1,36 +1,40 @@
 <div class="container-fluid main-app-container">
-  <div class="col-md-3 pt-5 mx-auto">
-    <img src="../assets/img/h2g-horizontal.png" alt="image" height="60">
+  <div class="row ml-3">
+    <div class="col-md-10 pt-4 ml-5" style="text-align: left; margin-top: 10px;">
+      <img src="../assets/img/h2g-horizontal.png" alt="image" height="60">
+    </div>
   </div>
   <div class="row">
-    <div class="col">
-  <div class="col-md-10 mx-auto">
+    <div class="col-md-6">
+  <div class="ml-5">
     <div class="map-container" style="position: relative; height: 500px;">
         <div id="map" class="rounded"></div>
     </div>
   </div>
-  <div class="col-md-9 mx-auto">
-    <div class="input-group form-sm form-2 pl-0">
+  <div class="ml-4 mr-4">
+    <div class="input-group form-sm form-2 pl-5">
       <input placeholder="Où allez-vous" class="form-control my-0 py-1 mr-2 rounded" type="text" aria-label="Search" [formControl]="search" [value]="search.value" (keyup)="keyupCallback()">
       <button class="btn btn-warning" (click)="changePositionGeolocation()"><i class="fas fa-map-pin"></i></button>
     </div>
-    <ul class="list-group col-md-11">
+    <ul class="list-group searchlist ml-5 mr-5">
       <li class="list-group-item" *ngFor="let city of cities"><button class="unstyled-button" (click)="changePosition(city)">{{city.label}}</button></li>
     </ul>
   </div>
   </div>
 
-    <div class="col pt-3">
-      <div class="col-md-10 mx-auto">
-      <h1>Résultats</h1>
-        <h2 style="color:white;" *ngIf="vehicles?.length>0">Filtrer</h2>
-        <button *ngIf="isFiltered" (click)="resetFilter()">Défiltrer</button>
-        <ul>
-          <li *ngFor="let type of vehicleTypes"><button (click)="filterVehicles(type)">{{type}}</button></li>
-        </ul>
+    <div class="col-md-6 pt-3" >
+      <div class="col-md-10">
+      <h1><b>Résultats</b></h1>
+<!--        <h2 style="color:white;" *ngIf="vehicles?.length>0">Filtrer</h2>-->
+<!--        <button *ngIf="isFiltered" (click)="resetFilter()">Défiltrer</button>-->
+<!--        <ul>-->
+<!--          <li *ngFor="let type of vehicleTypes"><button (click)="filterVehicles(type)">{{type}}</button></li>-->
+<!--        </ul>-->
+
       <div class="overflow-auto">
         <app-vehicles [vehicles]="vehicles" [filteredVehicles]="filteredVehicles" [isFiltered]="isFiltered"></app-vehicles>
       </div>
+
       </div>
     </div>
 

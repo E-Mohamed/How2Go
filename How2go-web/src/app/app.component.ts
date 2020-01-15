@@ -17,7 +17,7 @@ export class AppComponent {
   title = 'How2go-web';
 
   myIcon = map.icon({
-    iconUrl:'https://i.ibb.co/HYCDygT/current-position.png',
+    iconUrl:'https://i.ibb.co/7V3zLsN/current-position.png',
     iconSize: [26, 41],
     iconAnchor: [13, 41],
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
@@ -26,6 +26,8 @@ export class AppComponent {
   /* LISTE DES MARKERS */
   markers: string[];
   tabProviders: string[];
+
+  logoVehicles: string[];
 
   /* COORDONNEES DE LA GEOLOCALISATION */
   longitude: number;
@@ -56,7 +58,9 @@ export class AppComponent {
 
   ngOnInit() {
     /*** AVEC GEOLOCALISATION ***/
+    this.initTabVehicles();
     this.initCustomMarkers();
+    this.initCustomLogo();
     this.initMapGeolocation();
     this.search = new FormControl();
   }
@@ -86,6 +90,13 @@ export class AppComponent {
   changePositionGeolocation() {
     this.myMap.setView(new map.LatLng(this.latitude, this.longitude));
     this.getVehicles(this.longitude, this.latitude);
+    this.myIcon.options.iconUrl = 'https://i.ibb.co/7V3zLsN/current-position.png'
+    map.marker(
+      [
+        this.latitude,
+        this.longitude
+      ],
+      {icon: this.myIcon}).addTo(this.layerGroup);
   }
 
   // filtre les véhicules
@@ -146,12 +157,20 @@ export class AppComponent {
       lng: longitude
     }).subscribe(({data}) => {
       this.vehicles = data.vehicles;
+      this.putLogo(data.vehicles);
       this.addMarkers(data.vehicles);
       this.distanceCalculator(longitude, latitude);
       //types de véhicule => filtres
       this.vehicleTypes = Array.from(new Set(this.vehicles.map(v => v.provider.name)));
     });
   }
+
+  private initTabVehicles() {
+    let fillTab: string[];
+    fillTab = ["Bird", "Bolt", "B Mobility", "Circ", "Cityscoot", "Dott", "Jump", "Mobike", "Tier", "Velib", "Voi", "Wind"];
+    this.tabProviders = fillTab;
+  }
+
 
   private initCustomMarkers() {
     let iconUrl: string[];
@@ -171,11 +190,38 @@ export class AppComponent {
 
   }
 
+  private initCustomLogo() {
+    let logoUrl: string[];
+    logoUrl = ['https://i.ibb.co/3Y1LKyW/bird.png',
+      'https://i.ibb.co/px2XJTh/bolt.png',
+      'https://i.ibb.co/hfYckKL/boltMob.png',
+      'https://i.ibb.co/hHzQgrL/circ.png',
+      'https://i.ibb.co/r0wk9Nr/cityscoot.png',
+      'https://i.ibb.co/5L3shPP/dott.png',
+      'https://i.ibb.co/cYh8B3r/jump.png',
+      'https://i.ibb.co/0JkpKrf/mobike.png',
+      'https://i.ibb.co/RPcV8LT/tier.png',
+      'https://i.ibb.co/x6KhL5V/velib.png',
+      'https://i.ibb.co/TRfrjt6/voi.png',
+      'https://i.ibb.co/Q6d4ZG8/wind.png'];
+    this.logoVehicles = logoUrl;
+
+  }
+
+  private putLogo(vehicles: Vehicle[]) {
+    for (const v of vehicles) {
+      // create markers
+      const index = this.tabProviders.indexOf(v.provider.name);
+      if (this.logoVehicles[index]) {
+        v.provider.url = this.logoVehicles[index];
+      } else {
+        v.provider.url = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png';
+      }
+    }
+  }
+
   /* GESTION MARKERS */
   private addMarkers(vehicles: Vehicle[]) {
-    let fillTab: string[];
-    fillTab = ["Bird", "Bolt", "B Mobility", "Circ", "Cityscoot", "Dott", "Jump", "Mobike", "Tier", "Velib", "Voi", "Wind"];
-    this.tabProviders = fillTab;
     this.removeMarkers();
     map.marker(
       [
