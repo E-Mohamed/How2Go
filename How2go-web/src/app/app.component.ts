@@ -68,7 +68,7 @@ export class AppComponent {
             attribution: 'Map'
           })
           .addTo(this.myMap);
- 
+
         this.layerGroup = map.layerGroup().addTo(this.myMap);
 
         this.getVehicles(this.longitude, this.latitude);
@@ -132,7 +132,7 @@ export class AppComponent {
         this.longitude
       ],
       { icon: this.myIcon }).addTo(this.layerGroup);
-    for (let point of this.vehicles) {
+    for (const point of this.vehicles) {
       // create markers
       let index = this.tabProviders.indexOf(point.provider.name);
       this.myIcon.options.iconUrl = this.markers[index];
