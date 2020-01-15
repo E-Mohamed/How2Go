@@ -1,17 +1,36 @@
-<div class="map-container" style="position: relative; height: 500px;">
-  <div class="map-frame"style="position: relative;height: inherit;width: inherit;">
-    <div id="map" ></div>
+<div class="container-fluid main-app-container">
+  <div class="col-md-3 pt-5 mx-auto">
+    <img src="../assets/img/h2g-horizontal.png" alt="image" height="60">
+  </div>
+  <div class="row">
+    <div class="col">
+  <div class="col-md-10 mx-auto">
+    <div class="map-container" style="position: relative; height: 500px;">
+        <div id="map" class="rounded"></div>
+    </div>
+  </div>
+  <div class="col-md-9 mx-auto">
+    <div class="input-group form-sm form-2 pl-0">
+      <input placeholder="Où allez-vous" class="form-control my-0 py-1 mr-2 rounded" type="text" aria-label="Search" [formControl]="search" [value]="search.value" (keyup)="keyupCallback()">
+      <button class="btn btn-warning" (click)="changePositionGeolocation()"><i class="fas fa-map-pin"></i></button>
+    </div>
+    <ul class="list-group col-md-11">
+      <li class="list-group-item" *ngFor="let city of cities"><button class="unstyled-button" (click)="changePosition(city)">{{city.label}}</button></li>
+    </ul>
+  </div>
+  </div>
+
+    <div class="col pt-3">
+      <div class="col-md-10 mx-auto">
+      <h1>Résultats</h1>
+      <div class="overflow-auto">
+      <app-vehicles [vehicles]="vehicles"></app-vehicles>
+      </div>
+      </div>
+    </div>
+
+<!--<div class='pointer'></div>-->
+
+<router-outlet></router-outlet>
   </div>
 </div>
-<div class='pointer'></div>
-
-<div>
-  <button (click)="changePositionGeolocation()">Me géolocaliser</button>
-  <input matInput placeholder="Entrer le nom d'une ville" [formControl]="search" [value]="search.value" (keyup)="keyupCallback()" />
-</div>
-
-<ul>
-  <li *ngFor="let city of cities"><button (click)="changePosition(city)">{{city.label}}</button></li>
-</ul>
-<app-vehicles [vehicles]="vehicles"></app-vehicles>
-<router-outlet></router-outlet>
