@@ -62,6 +62,47 @@ export class AppComponent {
   }
 
 
+  // autocomplétion des villes
+  keyupCallback() {
+    const provider = new OpenStreetMapProvider();
+    provider.search({query: this.search.value}).then((results) => {
+      this.cities = results;
+    });
+  }
+
+  // change la position de la carte -> click sur le nom d'une ville
+  changePosition(city: any) {
+    // si la géolocalisation n'est pas autorisée => réinitialisation de la map
+    if (!this.geolocationAuthorized) {
+      this.initMap(city.y, city.x);
+    } else {
+      this.myMap.setView(new map.LatLng(city.y, city.x));
+      this.getVehicles(city.x, city.y);
+    }
+
+  }
+
+  // change la position de la carte -> géolocalisation
+  changePositionGeolocation() {
+    this.myMap.setView(new map.LatLng(this.latitude, this.longitude));
+    this.getVehicles(this.longitude, this.latitude);
+  }
+
+  // filtre les véhicules
+  filterVehicles(type) {
+    this.isFiltered = true;
+    this.filteredVehicles = this.vehicles.filter(value => value.provider.name === type);
+    this.removeMarkers();
+    this.addMarkers(this.filteredVehicles);
+  }
+
+  // reset les filtres
+  resetFilter() {
+    this.isFiltered = false;
+    this.removeMarkers();
+    this.addMarkers(this.vehicles);
+  }
+
   /* CRÉE ET INITIALISE UNE MAP GEOLOCALISEE */
   private initMapGeolocation() {
     if (navigator.geolocation) {
@@ -169,33 +210,6 @@ export class AppComponent {
 
   /******************/
 
-
-  // autocomplétion des villes
-  keyupCallback() {
-    const provider = new OpenStreetMapProvider();
-    provider.search({query: this.search.value}).then((results) => {
-      this.cities = results;
-    });
-  }
-
-  // change la position de la carte -> click sur le nom d'une ville
-  changePosition(city: any) {
-    // si la géolocalisation n'est pas autorisée => réinitialisation de la map
-    if (!this.geolocationAuthorized) {
-      this.initMap(city.y, city.x);
-    } else {
-      this.myMap.setView(new map.LatLng(city.y, city.x));
-      this.getVehicles(city.x, city.y);
-    }
-
-  }
-
-  // change la position de la carte -> géolocalisation
-  changePositionGeolocation() {
-    this.myMap.setView(new map.LatLng(this.latitude, this.longitude));
-    this.getVehicles(this.longitude, this.latitude);
-  }
-
   // calcul des distances des vehicles
   private distanceCalculator(lon1, lat1) {
     for (const vehicle of this.vehicles) {
@@ -224,21 +238,6 @@ export class AppComponent {
   // trie les vehicles du plus proche au plus éloigné
   private orderVehicles() {
     this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
-  }
-
-  // filtre les véhicules
-  filterVehicles(type) {
-    this.isFiltered = true;
-    this.filteredVehicles = this.vehicles.filter(value => value.provider.name === type);
-    this.removeMarkers();
-    this.addMarkers(this.filteredVehicles);
-  }
-
-  // reset les filtres
-  resetFilter() {
-    this.isFiltered = false;
-    this.removeMarkers();
-    this.addMarkers(this.vehicles);
   }
 
 }
