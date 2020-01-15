@@ -101,19 +101,18 @@ export class AppComponent {
   /* RETOURNES LES MOYENS DE TRANSPORT */
   private getVehicles(longitude: number, latitude: number) {
     this.vehicleListQueryService.fetch({
-      lat: latitude, // c'est ici qu'on renseigne la position que l'on souhaite
+      lat: latitude,
       lng: longitude
     }).subscribe(({data}) => {
       this.vehicles = data.vehicles;
       this.addMarkers(data.vehicles);
       this.distanceCalculator(longitude, latitude);
+      //types de véhicule => filtres
       this.vehicleTypes = Array.from(new Set(this.vehicles.map(v => v.provider.name)));
-      console.log(this.vehicleTypes)
     });
   }
 
   private initCustomMarkers() {
-    console.log("test");
     let iconUrl: string[];
     iconUrl = ['https://i.ibb.co/DRJnK3v/birdlogo.png',
       'bolt-placeholder',
@@ -143,6 +142,8 @@ export class AppComponent {
         this.longitude
       ],
       { icon: this.myIcon }).addTo(this.layerGroup);
+
+    // crée un marker pour chaque vehicle
     for (const point of vehicles) {
       // create markers
       const index = this.tabProviders.indexOf(point.provider.name);
@@ -158,6 +159,7 @@ export class AppComponent {
         ],
         {icon: this.myIcon}).bindPopup(point.provider.name).addTo(this.layerGroup);
     }
+
   }
 
   // remove all the markers in one go
@@ -194,6 +196,7 @@ export class AppComponent {
     this.getVehicles(this.longitude, this.latitude);
   }
 
+  // calcul des distances des vehicles
   private distanceCalculator(lon1, lat1) {
     for (const vehicle of this.vehicles) {
       if ((lat1 === vehicle.lat) && (lon1 === vehicle.lng)) {
@@ -214,14 +217,16 @@ export class AppComponent {
         vehicle.distance = dist;
       }
     }
+    // tri des vehicles
     this.orderVehicles();
   }
 
+  // trie les vehicles du plus proche au plus éloigné
   private orderVehicles() {
     this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
   }
 
-
+  // filtre les véhicules
   filterVehicles(type) {
     this.isFiltered = true;
     this.filteredVehicles = this.vehicles.filter(value => value.provider.name === type);
@@ -229,6 +234,7 @@ export class AppComponent {
     this.addMarkers(this.filteredVehicles);
   }
 
+  // reset les filtres
   resetFilter() {
     this.isFiltered = false;
     this.removeMarkers();
