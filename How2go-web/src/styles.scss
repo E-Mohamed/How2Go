@@ -35,11 +35,38 @@ label:focus,
 
 h1 {
   color: #FFFFFF;
+  font-weight: 700;
+}
+
+h3 {
+  display:inline;
+}
+
+h4 {
+  color: #E6B424;
+  display:inline;
+  font-weight: 500;
 }
 
 .list-group{
-  max-height: 500px;
+  max-height: 480px;
   margin-bottom: 10px;
   overflow:scroll;
   -webkit-overflow-scrolling: touch;
 }
+
+.list-group.searchlist {
+  max-height: 100px;
+  overflow:scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list-group-item.listvehicle{
+  vertical-align: middle;
+  height: 100%;
+  line-height:400%;
+  border-top: 0 none;
+}
+
+
+
