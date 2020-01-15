@@ -22,7 +22,8 @@ export class ListComponent implements OnInit {
    }
 
   getVehicle() {
-    this.vehicles = this.vehicleService.getVehicles(2.335471, 48.863341).pipe(map(({ data }) => data.vehicles));
+    this.vehicleService.getVehicles(2.335471, 48.863341)
+      .subscribe(({ data }) => this.vehicles = data.vehicles);
 
   }
 
