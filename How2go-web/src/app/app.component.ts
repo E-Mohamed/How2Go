@@ -128,9 +128,9 @@ export class AppComponent {
     fillTab = ["Bird", "Bolt", "B Mobility", "Circ", "Cityscoot", "Dott", "Jump", "Mobike", "Tier", "Velib", "Voi", "Wind"];
     this.tabProviders = fillTab;
     this.removeMarkers();
-    for (let point of this.vehicles) {
+    for (const point of this.vehicles) {
       // create markers
-      let index = this.tabProviders.indexOf(point.provider.name);
+      const index = this.tabProviders.indexOf(point.provider.name);
       this.myIcon.options.iconUrl = this.markers[index];
       map.marker(
         [
@@ -180,10 +180,10 @@ export class AppComponent {
       if ((lat1 === vehicle.lat) && (lon1 === vehicle.lng)) {
         return 0;
       } else {
-        let radlat1 = Math.PI * lat1 / 180;
-        let radlat2 = Math.PI * vehicle.lat / 180;
-        let theta = lon1 - vehicle.lng;
-        let radtheta = Math.PI * theta / 180;
+        const radlat1 = Math.PI * lat1 / 180;
+        const radlat2 = Math.PI * vehicle.lat / 180;
+        const theta = lon1 - vehicle.lng;
+        const radtheta = Math.PI * theta / 180;
         let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         if (dist > 1) {
           dist = 1;
