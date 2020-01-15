@@ -23,8 +23,13 @@
     <div class="col pt-3">
       <div class="col-md-10 mx-auto">
       <h1>Résultats</h1>
+        <h2 style="color:white;" *ngIf="vehicles?.length>0">Filtrer</h2>
+        <button *ngIf="isFiltered" (click)="resetFilter()">Défiltrer</button>
+        <ul>
+          <li *ngFor="let type of vehicleTypes"><button (click)="filterVehicles(type)">{{type}}</button></li>
+        </ul>
       <div class="overflow-auto">
-      <app-vehicles [vehicles]="vehicles"></app-vehicles>
+        <app-vehicles [vehicles]="vehicles" [filteredVehicles]="filteredVehicles" [isFiltered]="isFiltered"></app-vehicles>
       </div>
       </div>
     </div>
