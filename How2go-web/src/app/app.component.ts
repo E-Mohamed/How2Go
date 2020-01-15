@@ -70,6 +70,7 @@ export class AppComponent {
             attribution: 'Map'
           })
           .addTo(this.myMap);
+ 
         this.layerGroup = map.layerGroup().addTo(this.myMap);
 
         this.getVehicles(this.longitude, this.latitude);
