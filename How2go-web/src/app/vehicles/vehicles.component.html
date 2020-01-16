@@ -1,6 +1,15 @@
-<button (click)="sortDistance()">Trier du plus proche au plus éloigné</button>
-<button (click)="sortType()">Trier par type</button>
-<ol class="list-group col-md-11">
-  <li class="list-group-item" *ngFor="let v of vehicles">{{v.provider.name}}</li>
-  <li *ngFor="let v of vehicles">{{v.provider.name}}, distance: {{v.distance | number:'1.0-0'}}m</li>
-</ol>
+<div class="d-flex" >
+  <button type="button" class="btn btn-warning btn-rounded mr-2 mb-2" (click)="sortDistance()"><i class="fas fa-walking"></i> Trier par distance</button>
+  <button type="button" class="btn btn-warning btn-rounded mb-2" (click)="sortType()"><i class="fas fa-filter"></i> Trier par type</button>
+</div>
+<div *ngIf="isFiltered; else elseBlock">
+  <h3>{{ filteredVehicles[0].provider.name }}</h3>
+  <ol class="list-group col-md-11">
+    <li class="list-group-item listvehicle" *ngFor="let v of filteredVehicles">{{v.provider.name}}, distance: {{v.distance | number:'1.0-0'}}m</li>
+  </ol>
+</div>
+<ng-template #elseBlock>
+  <ol class="list-group col-md-11">
+    <li class="list-group-item listvehicle" *ngFor="let v of vehicles"><img src="{{v.provider.url}}" height="50"> &nbsp;&nbsp; <h3>{{v.provider.name}}</h3>, &nbsp;<h4><strong>{{v.distance | number:'1.0-0'}}m</strong></h4></li>
+  </ol>
+</ng-template>
