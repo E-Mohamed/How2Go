@@ -32,7 +32,7 @@
 <!--        </ul>-->
 
       <div class="overflow-auto">
-        <app-vehicles [vehicles]="vehicles" [filteredVehicles]="filteredVehicles" [isFiltered]="isFiltered"></app-vehicles>
+        <app-vehicles (centerEvent)="centerMap($event)" [vehicles]="vehicles" [filteredVehicles]="filteredVehicles" [isFiltered]="isFiltered"></app-vehicles>
       </div>
 
       </div>
