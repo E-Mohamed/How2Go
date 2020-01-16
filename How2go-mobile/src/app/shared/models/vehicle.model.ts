@@ -6,5 +6,6 @@ export class Vehicle {
     distance: number;
     provider: {
         name: string;
+        url: string;
     };
 }

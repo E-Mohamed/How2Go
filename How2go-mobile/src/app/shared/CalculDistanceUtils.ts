@@ -1,4 +1,4 @@
-import { Vehicle } from './vehicle.model';
+import { Vehicle } from './models/vehicle.model';
 
 export default class CalculDistance {
     static distanceCalculator(lon1: number, lat1: number, vehicles: Vehicle[]) {

@@ -3,7 +3,8 @@ import { Map, tileLayer, marker, icon } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { VehicleService } from '../vehicle.service';
 import { Vehicle } from '../shared/models/vehicle.model';
-import CalculDistance from '../shared/models/CalculDistanceUtils';
+import CalculDistance from '../shared/CalculDistanceUtils';
+import { logoUrl } from '../shared/logoUrl';
 
 @Component({
   selector: 'app-home',
@@ -72,11 +73,20 @@ export class HomePage {
         CalculDistance.distanceCalculator(long, lat, this.vehicles);
       });
   }
+
+  private putLogo(vehicles: Vehicle[]) {
+    for (const v of vehicles) {
+      // create markers
+      const index = this.tabProviders.indexOf(v.provider.name);
+      if (this.logoVehicles[index]) {
+        v.provider.url = this.logoVehicles[index];
+      } else {
+        v.provider.url = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png';
+      }
+    }
+  }
   /** Remove map when we have multiple map object */
   ionViewWillLeave() {
     this.map.remove();
   }
-
-
-
 }
