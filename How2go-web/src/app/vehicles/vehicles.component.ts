@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {VehicleListQueryService} from '../vehicle-list-query.service';
 import {Vehicle} from '../vehicle';
-import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-vehicles',
