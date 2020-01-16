@@ -2,26 +2,25 @@
   <ion-list-header>
     Vehicle's list
   </ion-list-header>
-  <mat-accordion>
+  <mat-accordion *ngFor="let name of vehicleName">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Vehicles
+          {{name}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <ion-item *ngFor="let entry of vehicles | async">
+      <ion-item *ngFor="let _v of getTabByName(name)">
         <ion-avatar slot="start">
-          <img src="{{logo}}">
+          <img src="{{_v.provider.url}}">
         </ion-avatar>
         <ion-label>
-          <h2>{{entry.provider.name}}</h2>
+          <h2>{{_v.provider.name}}</h2>
       
-          <p>{{entry.lng}}, {{entry.lat}}</p>
+          <p>{{_v.distance | number:'1.0-0'}} m</p>
         </ion-label>
       </ion-item>
     </mat-expansion-panel>
     
   </mat-accordion>
-
   
 </ion-list>
