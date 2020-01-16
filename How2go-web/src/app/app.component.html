@@ -16,9 +16,11 @@
       <input placeholder="Où allez-vous" class="form-control my-0 py-1 mr-2 rounded" type="text" aria-label="Search" [formControl]="search" [value]="search.value" (keyup)="keyupCallback()">
       <button class="btn btn-warning" (click)="changePositionGeolocation()"><i class="fas fa-map-pin"></i></button>
     </div>
+    <div class="container">
     <ul class="list-group searchlist ml-5 mr-5">
       <li class="list-group-item" *ngFor="let city of cities"><button class="unstyled-button" (click)="changePosition(city)">{{city.label}}</button></li>
     </ul>
+    </div>
   </div>
   </div>
 
