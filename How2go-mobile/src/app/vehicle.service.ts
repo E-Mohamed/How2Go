@@ -34,7 +34,6 @@ export class VehicleService {
         `;
 
   constructor(
-    private http: HttpClient,
     private apollo: Apollo
   ) { }
 
