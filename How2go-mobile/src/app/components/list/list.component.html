@@ -2,14 +2,14 @@
   <ion-list-header>
     Vehicle's list
   </ion-list-header>
-  <mat-accordion *ngFor="let n of vehicleName">
+  <mat-accordion *ngFor="let name of vehicleName">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{n}}
+          {{name}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <ion-item *ngFor="let _v of getTabByName(n)">
+      <ion-item *ngFor="let _v of getTabByName(name)">
         <ion-avatar slot="start">
           <img src="{{logo}}">
         </ion-avatar>

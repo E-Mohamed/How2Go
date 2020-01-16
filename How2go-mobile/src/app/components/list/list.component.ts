@@ -24,7 +24,6 @@ export class ListComponent implements OnInit {
   velib: Vehicle[];
   voi: Vehicle[];
   wind: Vehicle[];
-  
 
   vehicleName: string[];
 
