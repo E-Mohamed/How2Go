@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {VehicleListQueryService} from '../vehicle-list-query.service';
 import {Vehicle} from '../vehicle';
 
@@ -13,6 +13,12 @@ export class VehiclesComponent implements OnInit {
   @Input() filteredVehicles: Vehicle[];
   @Input() isFiltered: string;
 
+  @Output() centerEvent = new EventEmitter<Vehicle>();
+
+  callParent(v){
+    this.centerEvent.emit(v);
+  }
+
   constructor(private vehicleListQueryService: VehicleListQueryService) { }
 
   ngOnInit() {
@@ -25,6 +31,5 @@ export class VehiclesComponent implements OnInit {
   sortType() {
     this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.provider.name > b.provider.name) ? 1 : -1);
   }
-
 
 }

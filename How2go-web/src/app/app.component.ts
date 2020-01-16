@@ -104,6 +104,7 @@ export class AppComponent {
     this.filteredVehicles = this.vehicles.filter(value => value.provider.name === type);
     this.removeMarkers();
     this.addMarkers(this.filteredVehicles);
+    this.centerMap(this.filteredVehicles[0]);
   }
 
   // reset les filtres
@@ -225,4 +226,11 @@ export class AppComponent {
   private removeMarkers() {
     this.layerGroup.clearLayers();
   }
+
+  centerMap(v: Vehicle){
+    //alert(v.provider.name);
+    this.myMap.panTo(new map.LatLng(v.lat, v.lng));
+
+  }
+
 }
