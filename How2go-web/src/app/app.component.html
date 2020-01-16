@@ -1,4 +1,4 @@
-<div class="container-fluid main-app-container">
+<div class="container-fluid main-app-container mt-5">
   <div class="row ml-3">
     <div class="col-md-10 pt-4 ml-5" style="text-align: left; margin-top: 10px;">
       <img src="../assets/img/h2g-horizontal.png" alt="image" height="60">
@@ -25,20 +25,26 @@
     <div class="col-md-6 pt-3" >
       <div class="col-md-10">
       <h1><b>Résultats</b></h1>
+        <!-- Basic dropdown -->
+        <!-- Basic dropdown -->
 <!--        <h2 style="color:white;" *ngIf="vehicles?.length>0">Filtrer</h2>-->
 <!--        <button *ngIf="isFiltered" (click)="resetFilter()">Défiltrer</button>-->
 <!--        <ul>-->
 <!--          <li *ngFor="let type of vehicleTypes"><button (click)="filterVehicles(type)">{{type}}</button></li>-->
 <!--        </ul>-->
 
-      <div class="overflow-auto">
-        <app-vehicles (centerEvent)="centerMap($event)" [vehicles]="vehicles" [filteredVehicles]="filteredVehicles" [isFiltered]="isFiltered"></app-vehicles>
-      </div>
+        <app-vehicles
+          (centerEvent)="centerMap($event)"
+          (unfilterEvent)="resetFilter()"
+          (filterEvent)="filterVehicles($event)"
+          [vehicles]="vehicles"
+          [vehicleTypes]="vehicleTypes"
+          [filteredVehicles]="filteredVehicles"
+          [isFiltered]="isFiltered">
+        </app-vehicles>
 
       </div>
     </div>
-
-<!--<div class='pointer'></div>-->
 
 <router-outlet></router-outlet>
   </div>

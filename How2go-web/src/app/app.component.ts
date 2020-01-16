@@ -199,6 +199,7 @@ export class AppComponent {
   /* GESTION MARKERS */
   private addMarkers(vehicles: Vehicle[]) {
     this.removeMarkers();
+    this.myIcon.options.iconUrl = 'https://i.ibb.co/tJvMGCc/current-position.png'
     map.marker(
       [
         this.latitude,
