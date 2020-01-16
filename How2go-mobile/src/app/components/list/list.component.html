@@ -11,7 +11,7 @@
       </mat-expansion-panel-header>
       <ion-item *ngFor="let _v of getTabByName(name)">
         <ion-avatar slot="start">
-          <img src="{{logo}}">
+          <img src="{{_v.provider.url}}">
         </ion-avatar>
         <ion-label>
           <h2>{{_v.provider.name}}</h2>

@@ -3,6 +3,8 @@ import { Map, tileLayer, marker, icon } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { VehicleService } from '../vehicle.service';
 import { Vehicle } from '../shared/models/vehicle.model';
+import CalculDistance from '../shared/CalculDistanceUtils';
+import { logoUrl, BIKE_NAME } from '../shared/logoUrl';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +26,13 @@ export class HomePage {
     popupAnchor: [0, -41]
 
   });
+  logoVehicles: string[];
+  tabProviders: any;
 
   constructor(private geoLocation: Geolocation, private vehicleService: VehicleService) { }
 
   ionViewDidEnter() {
+    this.initCustomLogo();
     this.leafletMap();
   }
 
@@ -65,10 +70,8 @@ export class HomePage {
   addMarkers() {
     this.vehicles.forEach(v => this.addMarker(v.lat, v.lng))
   }
-
   addMarker(lat: number, long: number) {
     marker([lat, long], { icon: this.customMarkerIcon }).bindPopup('I am here').addTo(this.map);
-
   }
 
   private getVehicles(lat: number, long: number) {
@@ -76,36 +79,30 @@ export class HomePage {
       .subscribe(({ data }) => {
         this.vehicles = data.vehicles;
         this.addMarkers();
-        this.distanceCalculator(long, lat);
+        CalculDistance.distanceCalculator(long, lat, this.vehicles);
+        this.addLogoToVehicle(this.vehicles);
       });
   }
-  private distanceCalculator(lon1: number, lat1: number) {
-    for (const vehicle of this.vehicles) {
-      if ((lat1 === vehicle.lat) && (lon1 === vehicle.lng)) {
-        return 0;
-      } else {
-        const radlat1 = Math.PI * lat1 / 180;
-        const radlat2 = Math.PI * vehicle.lat / 180;
-        const theta = lon1 - vehicle.lng;
-        const radtheta = Math.PI * theta / 180;
-        let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-        if (dist > 1) {
-          dist = 1;
-        }
-        dist = Math.acos(dist);
-        dist = dist * 180 / Math.PI;
-        dist = dist * 60 * 1.1515 * 1.609344 * 1000;
 
-        vehicle.distance = dist;
+  private addLogoToVehicle(vehicles: Vehicle[]) {
+    for (const v of vehicles) {
+      const index = BIKE_NAME.indexOf(v.provider.name);
+      if (this.logoVehicles[index]) {
+        v.provider.url = this.logoVehicles[index];
+      } else {
+        v.provider.url = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png';
       }
     }
   }
 
+  private initCustomLogo() {
+    let logos: string[];
+    logos = logoUrl;
+    this.logoVehicles = logoUrl;
+
+  }
   /** Remove map when we have multiple map object */
   ionViewWillLeave() {
     this.map.remove();
   }
-
-
-
 }
