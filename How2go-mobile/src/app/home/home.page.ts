@@ -59,8 +59,6 @@ export class HomePage {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-
-
     marker([48.9268721, 2.339048], { icon: this.customMarkerIcon })
       .addTo(this.map);
     // .on('click', () => this.router.navigateByUrl('/')) on click naviate to vehicle page
@@ -93,8 +91,12 @@ export class HomePage {
         vehicle.distance = dist;
       }
     }
+    this.orderVehicles();
   }
 
+  private orderVehicles() {
+    this.vehicles.sort((a: Vehicle, b: Vehicle) => (a.distance > b.distance) ? 1 : -1);
+  }
   /** Remove map when we have multiple map object */
   ionViewWillLeave() {
     this.map.remove();
