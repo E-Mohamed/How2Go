@@ -60,6 +60,7 @@ h4 {
   max-height: 100px;
   overflow:scroll;
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 
 .list-group-item.listvehicle{
