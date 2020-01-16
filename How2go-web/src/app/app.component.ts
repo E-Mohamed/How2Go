@@ -58,12 +58,14 @@ export class AppComponent {
 
   /* CRÉE ET INITIALISE UNE MAP GEOLOCALISEE */
   private initMapGeolocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+    //if (navigator.geolocation) {
+      //navigator.geolocation.getCurrentPosition((position) => {
         this.geolocationAuthorized = true;
 
-        this.longitude = position.coords.longitude;
-        this.latitude = position.coords.latitude;
+        //this.longitude = position.coords.longitude;
+        this.longitude = 2.36481;
+        //this.latitude = position.coords.latitude;
+        this.latitude = 48.8269;
         this.myMap = map.map('map').setView([this.latitude, this.longitude], 20);
         map
           .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -74,8 +76,8 @@ export class AppComponent {
         this.layerGroup = map.layerGroup().addTo(this.myMap);
 
         this.getVehicles(this.longitude, this.latitude);
-      });
-    }
+      //});
+    //}
   }
 
 
@@ -123,6 +125,66 @@ export class AppComponent {
 
   }
 
+  private linkWebSite(name): string{
+    //ce tableau contient les liens des site web
+    let linksWebSite = {
+      "Bird" : `https://www.bird.co/`,
+      "Bolt":`https://bolt.eu/`, 
+      "B Mobility":`https://bmobility.fr/`,
+      "Circ":`https://goflash.com/`,
+      "Cityscoot":`https://www.cityscoot.eu/`,
+      "Dott":`https://ridedott.com/`,
+      "Jump":`https://www.jump.com/`,
+      "Mobike":`https://mobike.com/`,
+      "Tier":`https://www.tier.app/`,
+      "Velib":`https://www.velib-metropole.fr/`,
+      "Voi":`https://www.voiscooters.com/`,
+      "Wind":`https://www.wind.co`,
+      "Lime":`https://www.li.me/fr/page-daccueil`,
+    };
+    return linksWebSite[name];
+  }
+
+  private linkAppStore(name): string{
+    //ce tableau contient les liens des applications sur app store
+    let linksAppStore = {
+      "Bird" : `itms-apps://apps.apple.com/fr/app/bird-soyez-libre-bon-voyage/id1260842311`,
+      "Bolt":`itms-apps://apps.apple.com/fr/app/bolt-txfy/id675033630`, 
+      "B Mobility":`itms-apps://apps.apple.com/fr/app/b-mobility-trottinettes/id1463869749`,
+      "Circ":`itms-apps://apps.apple.com/fr/app/circ-trottinettes-électrique/id1446543957`,
+      "Cityscoot":`itms-apps://apps.apple.com/fr/app/cityscoot/id1011202160`,
+      "Dott":`itms-apps://apps.apple.com/fr/app/dott/id1440301673`,
+      "Jump":`itms-apps://apps.apple.com/fr/app/uber/id368677368`,
+      "Mobike":`itms-apps://apps.apple.com/fr/app/mobike-global/id1479165334`,
+      "Tier":`itms-apps://apps.apple.com/fr/app/tier-scooter-sharing/id1436140272`,
+      "Velib":`itms-apps://apps.apple.com/fr/app/vélib-app-officielle/id577807727`,
+      "Voi":`itms-apps://apps.apple.com/fr/app/voi-scooters-get-magic-wheels/id1395921017`,
+      "Wind":`itms-apps://apps.apple.com/fr/app/wind-electric-scooter-share/id1247826304`,
+      "Lime":`itms-apps://apps.apple.com/fr/app/lime-déplacez-vous-sans-limi/id1199780189`
+    };
+    return linksAppStore[name];
+  }
+
+  private linkGooglePlay(name): string{
+    //ce tableau contient les liens des applications sur google play
+    let linksGooglePlay = {
+      "Bird" : `market://details?id=co.bird.android`,
+      "Bolt":`market://details?id=ee.mtakso.client`, 
+      "B Mobility":`market://details?id=com.dufercoenergia.dmobility`,
+      "Circ":`market://details?id=com.goflash.consumer`,
+      "Cityscoot":`market://details?id=com.livebanner.cityscoot`,
+      "Dott":`market://details?id=com.ridedott.rider`,
+      "Jump":`market://details?id=com.jumpmobility&hl=fr`,
+      "Mobike":`market://details?id=com.mobike.global`,
+      "Tier":`market://details?id=com.tier.app`,
+      "Velib":`market://details?id=com.paris.velib`,
+      "Voi":`market://details?id=io.voiapp.voi`,
+      "Wind":`market://details?id=com.zen.zbike`,
+      "Lime":`market://details?id=com.limebike`
+    };        
+    return linksGooglePlay[name];    
+  }
+
   /* GESTION MARKERS */
   private addMarkers() {
     let fillTab: string[];
@@ -134,17 +196,31 @@ export class AppComponent {
         this.latitude,
         this.longitude
       ],
-      { icon: this.myIcon }).addTo(this.layerGroup);
+      { icon: this.myIcon }).addTo(this.layerGroup);   
+    let userAgent = navigator.userAgent.toLowerCase(); 
+    let isAndroid = userAgent.indexOf("android") > -1; 
+    let isIphone = userAgent.indexOf("iphone") > -1;
+    let link = '';
     for (const point of this.vehicles) {
       // create markers
       const index = this.tabProviders.indexOf(point.provider.name);
       this.myIcon.options.iconUrl = this.markers[index];
+
+      if(isAndroid || isIphone){ //si le device est un smartphone
+        if(isAndroid)//si android on retourne le lien de l'appli sur google play
+          link = this.linkGooglePlay(point.provider.name);
+        else //si iphone on retourne le lien de l'appli sur app store        
+          link = this.linkAppStore(point.provider.name);
+      }
+      else{//autre type device on retourne le lien de site web
+        link = this.linkWebSite(point.provider.name);  
+      }        
       map.marker(
         [
           point.lat,
           point.lng
         ],
-        {icon: this.myIcon}).bindPopup(point.provider.name).addTo(this.layerGroup);
+        {icon: this.myIcon}).bindPopup('<button><a href="'+link+'">'+point.provider.name+'</a></button></br>').addTo(this.layerGroup);                
     }
   }
 
