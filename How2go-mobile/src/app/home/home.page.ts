@@ -49,8 +49,10 @@ export class HomePage {
       this.lat = resp.coords.latitude;
       this.long = resp.coords.longitude;
       this.map.setView([this.lat, this.long], 15);
+      this.addMarker(this.lat, this.long);
 
       this.getVehicles(48.866667, 2.333333);
+      console.log(this.vehicles);
     }).catch((error) => {
       console.log('Error getting location', error);
     });
@@ -60,16 +62,25 @@ export class HomePage {
     }).addTo(this.map);
 
 
-
-    marker([48.9268721, 2.339048], { icon: this.customMarkerIcon })
-      .addTo(this.map);
-    // .on('click', () => this.router.navigateByUrl('/')) on click naviate to vehicle page
+    
+    
   }
+
+  addMarkers(){
+    this.vehicles.forEach( v => this.addMarker(v.lat, v.lng)) 
+  
+  }
+
+  addMarker(lat: number, long: number) { 
+    marker([lat,long], {icon: this.customMarkerIcon}).bindPopup("I am here").addTo(this.map);
+
+   }
 
   private getVehicles(lat: number, long: number) {
     this.vehicleService.getVehicles(long, lat)
       .subscribe(({ data }) => {
         this.vehicles = data.vehicles;
+        this.addMarkers();
         this.distanceCalculator(long, lat);
       });
   }
