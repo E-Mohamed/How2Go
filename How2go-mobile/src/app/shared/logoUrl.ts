@@ -15,3 +15,5 @@ const logoUrl: string[] = [
 ];
 
 export {logoUrl};
+
+export const BIKE_NAME = ['Bird', 'Bolt', 'B Mobility', 'Circ', 'Cityscoot', 'Dott', 'Jump', 'Mobike', 'Tier', 'Velib', 'Voi', 'Wind'];

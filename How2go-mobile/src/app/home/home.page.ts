@@ -4,7 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { VehicleService } from '../vehicle.service';
 import { Vehicle } from '../shared/models/vehicle.model';
 import CalculDistance from '../shared/CalculDistanceUtils';
-import { logoUrl } from '../shared/logoUrl';
+import { logoUrl, BIKE_NAME } from '../shared/logoUrl';
 
 @Component({
   selector: 'app-home',
@@ -26,10 +26,13 @@ export class HomePage {
     popupAnchor: [0, -41]
 
   });
+  logoVehicles: string[];
+  tabProviders: any;
 
   constructor(private geoLocation: Geolocation, private vehicleService: VehicleService) { }
 
   ionViewDidEnter() {
+    this.initCustomLogo();
     this.leafletMap();
   }
 
@@ -71,19 +74,26 @@ export class HomePage {
       .subscribe(({ data }) => {
         this.vehicles = data.vehicles;
         CalculDistance.distanceCalculator(long, lat, this.vehicles);
+        this.addLogoToVehicle(this.vehicles);
       });
   }
 
-  private putLogo(vehicles: Vehicle[]) {
+  private addLogoToVehicle(vehicles: Vehicle[]) {
     for (const v of vehicles) {
-      // create markers
-      const index = this.tabProviders.indexOf(v.provider.name);
+      const index = BIKE_NAME.indexOf(v.provider.name);
       if (this.logoVehicles[index]) {
         v.provider.url = this.logoVehicles[index];
       } else {
         v.provider.url = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png';
       }
     }
+  }
+
+  private initCustomLogo() {
+    let logos: string[];
+    logos = logoUrl;
+    this.logoVehicles = logoUrl;
+
   }
   /** Remove map when we have multiple map object */
   ionViewWillLeave() {
