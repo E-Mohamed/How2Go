@@ -124,8 +124,11 @@ export class AppComponent {
         this.latitude = position.coords.latitude;
         this.myMap = map.map('map').setView([this.latitude, this.longitude], 20);
         map
-          .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: 'Map'
+          .tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            accessToken: 'pk.eyJ1IjoiaG93MmdvIiwiYSI6ImNrNWdqdDd2MTA2aDMzbm1wdnFnZWtlcmIifQ.TYERgnbQiVw246ni5xrH8g'
           })
           .addTo(this.myMap);
 
@@ -141,8 +144,11 @@ export class AppComponent {
   private initMap(latitude, longitude) {
     this.myMap = map.map('map').setView([latitude, longitude], 20);
     map
-      .tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: 'Map'
+      .tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        accessToken: 'pk.eyJ1IjoiaG93MmdvIiwiYSI6ImNrNWdqdDd2MTA2aDMzbm1wdnFnZWtlcmIifQ.TYERgnbQiVw246ni5xrH8g'
       })
       .addTo(this.myMap);
 
