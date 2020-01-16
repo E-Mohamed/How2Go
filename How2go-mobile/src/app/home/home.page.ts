@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Map, tileLayer, marker, icon } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { VehicleService } from '../vehicle.service';
-import { Vehicle } from '../models/vehicle.model';
+import { Vehicle } from '../shared/models/vehicle.model';
 
 @Component({
   selector: 'app-home',
@@ -60,21 +60,16 @@ export class HomePage {
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
-
-
-    
-    
   }
 
-  addMarkers(){
-    this.vehicles.forEach( v => this.addMarker(v.lat, v.lng)) 
-  
+  addMarkers() {
+    this.vehicles.forEach(v => this.addMarker(v.lat, v.lng))
   }
 
-  addMarker(lat: number, long: number) { 
-    marker([lat,long], {icon: this.customMarkerIcon}).bindPopup("I am here").addTo(this.map);
+  addMarker(lat: number, long: number) {
+    marker([lat, long], { icon: this.customMarkerIcon }).bindPopup('I am here').addTo(this.map);
 
-   }
+  }
 
   private getVehicles(lat: number, long: number) {
     this.vehicleService.getVehicles(long, lat)
