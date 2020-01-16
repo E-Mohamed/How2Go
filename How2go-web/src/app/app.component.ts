@@ -17,7 +17,7 @@ export class AppComponent {
   title = 'How2go-web';
 
   myIcon = map.icon({
-    iconUrl:'https://i.ibb.co/7V3zLsN/current-position.png',
+    iconUrl:'https://i.ibb.co/tJvMGCc/current-position.png',
     iconSize: [26, 41],
     iconAnchor: [13, 41],
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
@@ -90,7 +90,7 @@ export class AppComponent {
   changePositionGeolocation() {
     this.myMap.setView(new map.LatLng(this.latitude, this.longitude));
     this.getVehicles(this.longitude, this.latitude);
-    this.myIcon.options.iconUrl = 'https://i.ibb.co/7V3zLsN/current-position.png'
+    this.myIcon.options.iconUrl = 'https://i.ibb.co/tJvMGCc/current-position.png'
     map.marker(
       [
         this.latitude,
