@@ -147,7 +147,4 @@ export class ListComponent implements OnInit {
     });
     return names;
   }
-
-
-
 }
