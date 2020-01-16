@@ -211,16 +211,22 @@ export class AppComponent {
           link = this.linkGooglePlay(point.provider.name);
         else //si iphone on retourne le lien de l'appli sur app store        
           link = this.linkAppStore(point.provider.name);
+          map.marker(
+            [
+              point.lat,
+              point.lng
+            ],
+            {icon: this.myIcon}).bindPopup('<button value="'+link+'" onclick="location.href = this.value;">'+point.provider.name+'</button></br>').addTo(this.layerGroup);                    
       }
       else{//autre type device on retourne le lien de site web
         link = this.linkWebSite(point.provider.name);  
+        map.marker(
+          [
+            point.lat,
+            point.lng
+          ],
+          {icon: this.myIcon}).bindPopup('<button id="_blank" value="'+link+'" onclick="window.open(this.value, this.id);">'+point.provider.name+'</button></br>').addTo(this.layerGroup);                
       }        
-      map.marker(
-        [
-          point.lat,
-          point.lng
-        ],
-        {icon: this.myIcon}).bindPopup('<button><a href="'+link+'">'+point.provider.name+'</a></button></br>').addTo(this.layerGroup);                
     }
   }
 
