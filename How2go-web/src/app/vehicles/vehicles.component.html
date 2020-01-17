@@ -1,15 +1,28 @@
-<div class="d-flex" >
-  <button type="button" class="btn btn-warning btn-rounded mr-2 mb-2" (click)="sortDistance()"><i class="fas fa-walking"></i> Trier par distance</button>
-  <button type="button" class="btn btn-warning btn-rounded mb-2" (click)="sortType()"><i class="fas fa-filter"></i> Trier par type</button>
+<div style="text-align: left;">
+  <button type="button" class="btn btn-warning btn-rounded mr-2 mb-2" (click)="sortDistance()"><i class="fas fa-sort-amount-down-alt"></i>  Distance</button>
+  <button type="button" class="btn btn-warning btn-rounded mr-2 mb-2" (click)="sortType()"><i class="fas fa-sort-alpha-down"></i>  Type</button>
+  <div class="btn-group" mdbDropdown *ngIf="vehicles?.length>0">
+    <button mdbDropdownToggle type="button" class="dropdown-toggle btn btn-warning btn-rounded mr-2 mb-2">
+      Filter
+    </button>
+
+    <ul class="dropdown-menu dropdown-primary">
+      <li *ngFor="let type of vehicleTypes" class="dropdown-item" href="#"><button class="unstyled-button" (click)="callFilter(type)">{{type}}</button></li>
+    </ul>
+  </div>
+  <button type="button" class="btn btn-danger btn-rounded mb-2" *ngIf="isFiltered" (click)="callUnfilter()"><i class="fas fa-times"></i></button>
 </div>
 <div *ngIf="isFiltered; else elseBlock">
   <h3>{{ filteredVehicles[0].provider.name }}</h3>
   <ol class="list-group col-md-11">
-    <li class="list-group-item listvehicle" *ngFor="let v of filteredVehicles" (click)="callParent(v)"><a>{{v.provider.name}}, distance: {{v.distance | number:'1.0-0'}}m </a></li>
+    <li class="list-group-item listvehicle" *ngFor="let v of filteredVehicles" (click)="callParent(v)"><img src="{{v.provider.url}}" height="50"> &nbsp;&nbsp; <h3>{{v.provider.name}}</h3>, &nbsp;<h4><strong>{{v.distance | number:'1.0-0'}}m</strong></h4></li>
   </ol>
 </div>
+
 <ng-template #elseBlock>
   <ol class="list-group col-md-11">
-    <li class="list-group-item listvehicle" *ngFor="let v of vehicles" (click)="callParent(v)"><a><img src="{{v.provider.url}}" height="50"> &nbsp;&nbsp; <h3>{{v.provider.name}}</h3>, &nbsp;<h4><strong>{{v.distance | number:'1.0-0'}}m </strong></h4></a> </li>
+    <li class="list-group-item listvehicle" *ngFor="let v of vehicles; let i=index" (click)="callParent(v)">
+        <a><img src="{{v.provider.url}}" height="50"> &nbsp;&nbsp; <h3>{{v.provider.name}}</h3>, &nbsp;<h4><strong>{{v.distance | number:'1.0-0'}}m </strong></h4></a>
+    </li>
   </ol>
 </ng-template>
