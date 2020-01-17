@@ -115,13 +115,11 @@ export class AppComponent {
 
   /* CRÉE ET INITIALISE UNE MAP GEOLOCALISEE */
   private initMapGeolocation() {
-    //if (navigator.geolocation) {
-      //navigator.geolocation.getCurrentPosition((position) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
         this.geolocationAuthorized = true;
-        //this.longitude = position.coords.longitude;
-        this.longitude = 2.36481;
-        //this.latitude = position.coords.latitude;
-        this.latitude = 48.8269;
+        this.longitude = position.coords.longitude;        
+        this.latitude = position.coords.latitude;        
         this.myMap = map.map('map').setView([this.latitude, this.longitude], 20);
         map
           .tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -135,8 +133,8 @@ export class AppComponent {
         this.layerGroup = map.layerGroup().addTo(this.myMap);
 
         this.getVehicles(this.longitude, this.latitude);
-      //});
-    //}
+      });
+    }
   }
 
   /* CRÉE ET INITIALISE UNE MAP NON GEOLOCALISEE */
