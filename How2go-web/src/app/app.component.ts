@@ -104,6 +104,7 @@ export class AppComponent {
     this.filteredVehicles = this.vehicles.filter(value => value.provider.name === type);
     this.removeMarkers();
     this.addMarkers(this.filteredVehicles);
+    this.centerMap(this.filteredVehicles[0]);
   }
 
   // reset les filtres
@@ -189,7 +190,7 @@ export class AppComponent {
       if (this.logoVehicles[index]) {
         v.provider.url = this.logoVehicles[index];
       } else {
-        v.provider.url = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png';
+        v.provider.url = 'https://i.ibb.co/MSb0YWX/default.png';
       }
     });
   }
@@ -257,6 +258,7 @@ export class AppComponent {
   /* GESTION MARKERS */
   private addMarkers(vehicles: Vehicle[]) {
     this.removeMarkers();
+    this.myIcon.options.iconUrl = 'https://i.ibb.co/tJvMGCc/current-position.png'
     map.marker(
       [
         this.latitude,
@@ -272,7 +274,7 @@ export class AppComponent {
       if (this.markers[index]) {
         this.myIcon.options.iconUrl = this.markers[index];
       } else {
-        this.myIcon.options.iconUrl = 'https://i.ibb.co/vh5cXXJ/marker-icon-red.png'
+        this.myIcon.options.iconUrl = 'https://i.ibb.co/6FqZhvx/default-pin.png'
       }
       if(isAndroid || isIphone){ //si le device est un smartphone
         if(isAndroid)//si android on retourne le lien de l'appli sur google play
@@ -302,4 +304,11 @@ export class AppComponent {
   private removeMarkers() {
     this.layerGroup.clearLayers();
   }
+
+  centerMap(v: Vehicle){
+    //alert(v.provider.name);
+    this.myMap.panTo(new map.LatLng(v.lat, v.lng));
+
+  }
+
 }
