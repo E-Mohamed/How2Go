@@ -56,14 +56,17 @@ export class HomePage {
       this.map.setView([this.lat, this.long], 15);
       this.addMarker(this.lat, this.long);
 
-      this.getVehicles(48.866667, 2.333333);
-      console.log(this.vehicles);
+      // TO DO : Before merge to master set the current user location
+      this.getVehicles(48.866667, 2.333333); // les coords sont en dur car de chez moi il n'y a pas de trottinette
     }).catch((error) => {
       console.log('Error getting location', error);
     });
 
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: '&copy; <a href="https://www.mapbox.com/">MapBox</a> contributors',
+      id: 'mapbox/streets-v11',
+      accessToken: 'pk.eyJ1IjoiaG93MmdvIiwiYSI6ImNrNWdqdDd2MTA2aDMzbm1wdnFnZWtlcmIifQ.TYERgnbQiVw246ni5xrH8g'
+
     }).addTo(this.map);
   }
 
