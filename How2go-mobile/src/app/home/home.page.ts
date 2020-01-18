@@ -71,7 +71,7 @@ export class HomePage {
   }
 
   addMarkers() {
-    this.vehicles.forEach(v => this.addMarker(v.lat, v.lng))
+    this.vehicles.forEach(v => this.addMarker(v.lat, v.lng));
   }
   addMarker(lat: number, long: number) {
     marker([lat, long], { icon: this.customMarkerIcon }).bindPopup('I am here').addTo(this.map);
