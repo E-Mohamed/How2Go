@@ -4,7 +4,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { VehicleService } from '../vehicle.service';
 import { Vehicle } from '../shared/models/vehicle.model';
 import CalculDistance from '../shared/CalculDistanceUtils';
-import { logoUrl, BIKE_NAME } from '../shared/logoUrl';
+import { logoUrl, BIKE_NAME, MARKER_ICON } from '../shared/logoUrl';
+
 
 @Component({
   selector: 'app-home',
@@ -19,13 +20,7 @@ export class HomePage {
 
   vehicles: Vehicle[];
 
-  customMarkerIcon = icon({
-    iconUrl: 'https://i.ibb.co/tJvMGCc/current-position.png',
-    iconSize: [26, 41],
-    iconAnchor: [13, 41],
-    popupAnchor: [0, -41]
-
-  });
+  
   logoVehicles: string[];
   tabProviders: any;
 
@@ -71,10 +66,27 @@ export class HomePage {
   }
 
   addMarkers() {
-    this.vehicles.forEach(v => this.addMarker(v.lat, v.lng));
+    this.vehicles.forEach(v => this.addMarker(v.lat, v.lng, v.provider.name));
   }
-  addMarker(lat: number, long: number) {
-    marker([lat, long], { icon: this.customMarkerIcon }).bindPopup('I am here').addTo(this.map);
+  addMarker(lat: number, long: number, name?: string) {
+    if (name) {
+      let customMarkerIcon = icon({
+        iconUrl: MARKER_ICON[name],
+        iconSize: [26, 41],
+        iconAnchor: [13, 41],
+        popupAnchor: [0, -41]
+      });
+      marker([lat, long], { icon: customMarkerIcon}).bindPopup(name).addTo(this.map);
+    } else {
+      let customMarkerIcon = icon({
+        iconUrl: 'https://i.ibb.co/tJvMGCc/current-position.png',
+        iconSize: [26, 41],
+        iconAnchor: [13, 41],
+        popupAnchor: [0, -41]
+      });
+      marker([lat, long], { icon: customMarkerIcon}).bindPopup(name).addTo(this.map);
+    }
+    
   }
 
   private getVehicles(lat: number, long: number) {
