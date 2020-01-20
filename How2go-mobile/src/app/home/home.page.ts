@@ -20,7 +20,7 @@ export class HomePage {
   vehicles: Vehicle[];
 
   customMarkerIcon = icon({
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png',
+    iconUrl: 'https://i.ibb.co/tJvMGCc/current-position.png',
     iconSize: [26, 41],
     iconAnchor: [13, 41],
     popupAnchor: [0, -41]
