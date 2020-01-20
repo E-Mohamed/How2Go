@@ -1,6 +1,5 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {VehicleListQueryService} from '../vehicle-list-query.service';
-import {Vehicle} from '../vehicle';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Vehicle } from '../../vehicle';
 
 @Component({
   selector: 'app-vehicles',
@@ -25,10 +24,10 @@ export class VehiclesComponent implements OnInit {
     this.unfilterEvent.next();
   }
 
-  callParent(v){
+  callParent(v) {
     this.centerEvent.emit(v);
   }
-  constructor(private vehicleListQueryService: VehicleListQueryService) { }
+  constructor() { }
 
   ngOnInit() {
   }
