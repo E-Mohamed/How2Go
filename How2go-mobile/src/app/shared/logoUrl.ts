@@ -16,4 +16,19 @@ const logoUrl: string[] = [
 
 export {logoUrl};
 
+export const MARKER_ICON = [
+    'https://i.ibb.co/DRJnK3v/birdlogo.png',
+    'bolt-placeholder',
+    'https://i.ibb.co/YN27vmd/bmobilitylogo.png',
+    'https://i.ibb.co/FgDtnky/circlogo.png',
+    'https://multicycles.org/img/cityscoot-2x.48f6bda8.png',
+    'https://i.ibb.co/HX5QQMB/dottlogo.png',
+    'https://i.ibb.co/4VGtjXm/jumplogo.png',
+    'https://multicycles.org/img/mobike-2x.40d9c66f.png',
+    'https://multicycles.org/img/tier-2x.e6d1964e.png',
+    'https://i.ibb.co/sRC0Rcx/veliblogo.png',
+    'https://i.ibb.co/xMBBB7r/voilogo.png',
+    'wind-placeholder'
+];
+
 export const BIKE_NAME = ['Bird', 'Bolt', 'B Mobility', 'Circ', 'Cityscoot', 'Dott', 'Jump', 'Mobike', 'Tier', 'Velib', 'Voi', 'Wind'];
