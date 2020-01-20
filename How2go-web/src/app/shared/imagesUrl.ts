@@ -1,17 +1,17 @@
-export const MARKER_ICON = [
-  'https://i.ibb.co/DRJnK3v/birdlogo.png',
-  'bolt-placeholder',
-  'https://i.ibb.co/YN27vmd/bmobilitylogo.png',
-  'https://i.ibb.co/FgDtnky/circlogo.png',
-  'https://multicycles.org/img/cityscoot-2x.48f6bda8.png',
-  'https://i.ibb.co/HX5QQMB/dottlogo.png',
-  'https://i.ibb.co/4VGtjXm/jumplogo.png',
-  'https://multicycles.org/img/mobike-2x.40d9c66f.png',
-  'https://multicycles.org/img/tier-2x.e6d1964e.png',
-  'https://i.ibb.co/sRC0Rcx/veliblogo.png',
-  'https://i.ibb.co/xMBBB7r/voilogo.png',
-  'wind-placeholder'
-];
+export const MARKER_ICON = {
+  Bird: 'https://i.ibb.co/DRJnK3v/birdlogo.png',
+  Bolt: 'bolt-placeholder',
+  'B Mobility': 'https://i.ibb.co/YN27vmd/bmobilitylogo.png',
+  Circ: 'https://i.ibb.co/FgDtnky/circlogo.png',
+  Cityscoot: 'https://multicycles.org/img/cityscoot-2x.48f6bda8.png',
+  Dott: 'https://i.ibb.co/HX5QQMB/dottlogo.png',
+  Jump: 'https://i.ibb.co/4VGtjXm/jumplogo.png',
+  Mobike: 'https://multicycles.org/img/mobike-2x.40d9c66f.png',
+  Tier: 'https://multicycles.org/img/tier-2x.e6d1964e.png',
+  Velib: 'https://i.ibb.co/sRC0Rcx/veliblogo.png',
+  Voi: 'https://i.ibb.co/xMBBB7r/voilogo.png',
+  Wind: 'wind-placeholder'
+};
 
 export const LOGO_ICON = [
   'https://i.ibb.co/3Y1LKyW/bird.png',
