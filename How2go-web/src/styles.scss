@@ -1,1 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
+html { background-color: #022938; }
+.main-app-container {
+  background-color: #022938;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: red;
+  opacity: 1; /* Firefox */
+}
+
+.unstyled-button {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none !important;
+}
+
+h1 {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+h3 {
+  display:inline;
+}
+
+h4 {
+  color: #E6B424;
+  display:inline;
+  font-weight: 500;
+}
+
+.list-group{
+  max-height: 480px;
+  margin-bottom: 10px;
+  overflow:scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list-group.searchlist {
+  max-height: 100px;
+  overflow:scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+}
+
+.list-group-item.listvehicle{
+  vertical-align: middle;
+  height: 100%;
+  line-height:400%;
+  border-top: 0 none;
+}
+
+
+

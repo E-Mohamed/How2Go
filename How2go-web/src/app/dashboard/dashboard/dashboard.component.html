@@ -1,0 +1,41 @@
+<div class="container-fluid main-app-container mt-5">
+  <div class="row ml-3">
+    <div class="col-md-10 pt-4 ml-5" style="text-align: left; margin-top: 10px;">
+      <img src="../assets/img/h2g-horizontal.png" alt="image" height="60">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="ml-5">
+        <div class="map-container" style="position: relative; height: 500px;">
+          <div id="map" class="rounded"></div>
+        </div>
+      </div>
+      <div class="ml-4 mr-4">
+        <div class="input-group form-sm form-2 pl-5">
+          <input placeholder="Où allez-vous" class="form-control my-0 py-1 mr-2 rounded" type="text" aria-label="Search"
+            [formControl]="search" [value]="search.value" (keyup)="keyupCallback()">
+          <button class="btn btn-warning" *ngIf="isFiltered == false" (click)="changePositionGeolocation()"><i
+              class="fas fa-map-pin"></i></button>
+        </div>
+        <ul class="list-group searchlist ml-5 mr-5">
+          <li class="list-group-item" *ngFor="let city of cities"><button class="unstyled-button"
+              (click)="changePosition(city)">{{city.label}}</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6 pt-3">
+      <div class="col-md-10">
+        <h1><b>Résultats</b></h1>
+
+        <app-vehicles (centerEvent)="centerMap($event)" (unfilterEvent)="resetFilter()"
+          (filterEvent)="filterVehicles($event)" [vehicles]="vehicles" [vehicleTypes]="vehicleTypes"
+          [filteredVehicles]="filteredVehicles" [isFiltered]="isFiltered">
+        </app-vehicles>
+
+      </div>
+    </div>
+
+  </div>
+</div>
